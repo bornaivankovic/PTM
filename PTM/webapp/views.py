@@ -1,13 +1,16 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.template import loader
 import json
 import pickle
 from node import node_from_dict
 from link import link_from_dict
 
 def index(request):
-    return HttpResponse("asdf")
+    template = loader.get_template('base.html')
+    context = {}
+    return HttpResponse(template.render(context, request))
 
 @csrf_exempt
 def topo(request):
@@ -34,5 +37,3 @@ def topo(request):
         print ns+ls
         return JsonResponse(json.loads(ns+ls))
     return HttpResponse("OK")
-
-
