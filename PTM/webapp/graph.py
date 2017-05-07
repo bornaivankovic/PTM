@@ -3,6 +3,20 @@ from link import Link
 from collections import defaultdict
 
 
+def find_all_paths(graph, start, end, path=[]):
+    path = path + [start]
+    if start == end:
+        return [path]
+    if not graph.has_key(start):
+        return []
+    paths = []
+    for node in graph[start]:
+        if node not in path:
+            newpaths = find_all_paths(graph, node, end, path)
+            for newpath in newpaths:
+                paths.append(newpath)
+    return paths
+
 class Graph:
     def __init__(self, nodes, links):
         self.nodes = nodes
@@ -15,6 +29,18 @@ class Graph:
         for node in self.nodes:
             if node.name == name:
                 return node
+
+    def graph_to_dict(self):
+        d={}
+        for n in self.nodes:
+            lns=[]
+            for l in self.links:
+                if l.n1.name==n.name:
+                    lns.append(l.n2.name)
+                elif l.n2.name==n.name:
+                    lns.append(l.n1.name)
+            d[n.name]=lns
+        return d
 
     def dijkstra(self, source, terminal):
         nodes = set()
@@ -66,6 +92,14 @@ class Graph:
                     path[edge] = min_node
 
         print visited, path
+        
+
+    def get_all_paths(self,n1,n2):
+        g=self.graph_to_dict()
+        return find_all_paths(g,n1.name,n2.name)
+        
+
+        
 
 
 nodes = [Node('a', 0.5, 0.7),
@@ -81,4 +115,5 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1]),
          Link(1, 0.4, 0.6, nodes[3], nodes[4])]
 g = Graph(nodes, links)
 print g.nodes, g.links
-g.dijkstra(nodes[0], nodes[4])
+#g.dijkstra(nodes[0], nodes[4])
+print g.get_all_paths(nodes[0],nodes[4])
