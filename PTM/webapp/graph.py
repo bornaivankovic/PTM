@@ -25,10 +25,10 @@ class Graph:
             nodes.add(node.name)
 
         for edge in self.links:
-            edges[edge.n1].append(edge.n2)
-            edges[edge.n2].append(edge.n1)
-            distance[(edge.n1, edge.n2)] = edge.length
-            distance[(edge.n2, edge.n1)] = edge.length
+            edges[edge.n1.name].append(edge.n2.name)
+            edges[edge.n2.name].append(edge.n1.name)
+            distance[(edge.n1.name, edge.n2.name)] = edge.length
+            distance[(edge.n2.name, edge.n1.name)] = edge.length
 
         visited = {source.name: 0}
         path = {}
@@ -39,7 +39,7 @@ class Graph:
         print 'a: ', edges['b']
 
         nodes = set(nodes)
-
+        
         while nodes:
             min_node = None
             for node in nodes:
@@ -55,8 +55,9 @@ class Graph:
 
             nodes.remove(min_node)
             current_weight = visited[min_node]
+            
 
-            print 'Minimal node edges: ', edges[min_node]
+            print 'Minimal node edges: ', edges.get(min_node)
 
             for edge in edges[min_node]:
                 weight = current_weight + distance[(min_node, edge)]
