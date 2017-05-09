@@ -1,10 +1,6 @@
 {
-  "files": [
-    "PTM/webapp/app/src/main.ts",
-    "PTM/webapp/app/src/hello.ts"
-  ],
   "compilerOptions": {
     "noImplicitAny": true,
-    "target": "es5"
+    "target": "es2015"
   }
 }

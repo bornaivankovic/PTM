@@ -2,18 +2,47 @@ var gulp = require("gulp");
 var browserify = require("browserify");
 var source = require('vinyl-source-stream');
 var tsify = require("tsify");
+var browserSync = require('browser-sync').create();
 
-
-gulp.task("default", function () {
+var build = function (cfg) {
     return browserify({
-        basedir: '.',
-        debug: true,
-        entries: ['PTM/webapp/app/src/main.ts'],
-        cache: {},
-        packageCache: {}
+            basedir: '.',
+            debug: cfg.debug,
+            entries: ['PTM/client/main.ts'],
+            cache: {},
+            packageCache: {}
+        })
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest("PTM/webapp/static/js/"))
+        .pipe(browserSync.init({
+            server: {
+                baseDir: "./"
+            }
+        }));
+}
+
+
+gulp.task("debug", function () {
+    return build({
+        debug: true
     })
-    .plugin(tsify)
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(gulp.dest("PTM/webapp/app/dist"));
+});
+
+
+gulp.task("build", function () {
+    return build({
+        debug: false
+    })
+});
+
+gulp.task("watch", function () {
+    gulp.watch(['PTM/client/**/*.ts'], ['debug']);
+    gulp.watch(['PTM/webapp/static/js/app.js']).on('change', browserSync.reload);
+
+});
+
+gulp.task("default", ["debug"], function () {
+    gulp.start('watch');
 });
