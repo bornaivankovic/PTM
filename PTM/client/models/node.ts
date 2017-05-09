@@ -1,15 +1,19 @@
-export class Node  {
+import { FailRepairRate } from './rates';
+
+export class Node extends FailRepairRate {
     private label: string;
     private id: string;
 
-    constructor() { }
+    constructor() { 
+        super();
+     }
 
-    getName(): string {
+    getLabel(): string {
         return this.label;
     }
 
-    setName(name: string): void {
-        this.label = name;
+    setLabel(label: string): void {
+        this.label = label;
     }
 
     getId(): string {

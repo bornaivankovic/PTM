@@ -1,3 +1,5 @@
-import { Node } from './models/node';
+import {Node} from './models/node';
 
-console.log(new Node);
+let node = new Node();
+node.getFailureRate();
+console.log(node.getFailureRate());
