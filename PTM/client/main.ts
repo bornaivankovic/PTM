@@ -1,1 +1,1 @@
-console.log("RAD  ");
+console.log("radi nesto w");
