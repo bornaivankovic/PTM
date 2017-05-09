@@ -1,48 +1,27 @@
 var gulp = require("gulp");
 var browserify = require("browserify");
 var source = require('vinyl-source-stream');
+var watchify = require("watchify");
 var tsify = require("tsify");
-var browserSync = require('browser-sync').create();
+var gutil = require("gulp-util");
 
-var build = function (cfg) {
-    return browserify({
-            basedir: '.',
-            debug: cfg.debug,
-            entries: ['PTM/client/main.ts'],
-            cache: {},
-            packageCache: {}
-        })
-        .plugin(tsify)
+
+var watchedBrowserify = watchify(browserify({
+    basedir: '.',
+    debug: true,
+    entries: ['PTM/client/main.ts'],
+    cache: {},
+    packageCache: {}
+}).plugin(tsify));
+
+
+function bundle() {
+    return watchedBrowserify
         .bundle()
         .pipe(source('app.js'))
-        .pipe(gulp.dest("PTM/webapp/static/js/"))
-        .pipe(browserSync.init({
-            server: {
-                baseDir: "./"
-            }
-        }));
+        .pipe(gulp.dest("PTM/webapp/static/js"));
 }
 
-
-gulp.task("debug", function () {
-    return build({
-        debug: true
-    })
-});
-
-
-gulp.task("build", function () {
-    return build({
-        debug: false
-    })
-});
-
-gulp.task("watch", function () {
-    gulp.watch(['PTM/client/**/*.ts'], ['debug']);
-    gulp.watch(['PTM/webapp/static/js/app.js']).on('change', browserSync.reload);
-
-});
-
-gulp.task("default", ["debug"], function () {
-    gulp.start('watch');
-});
+gulp.task("default", bundle);
+watchedBrowserify.on("update", bundle);
+watchedBrowserify.on("log", gutil.log);

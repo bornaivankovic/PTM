@@ -2,5 +2,10 @@
   "compilerOptions": {
     "noImplicitAny": true,
     "target": "es2015"
-  }
+  },
+  "include": [
+    "PTM/client/*.ts",
+    "PTM/client/models/*.ts",
+    "PTM/client/controllers/*.ts"
+  ]
 }
