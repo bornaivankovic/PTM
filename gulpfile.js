@@ -2,34 +2,47 @@ var gulp = require("gulp");
 var browserify = require("browserify");
 var source = require('vinyl-source-stream');
 var tsify = require("tsify");
-var gutil = require("gulp-util");
-var uglify = require('gulp-uglify');
-var sourcemaps = require('gulp-sourcemaps');
-var buffer = require('vinyl-buffer');
+var browserSync = require('browser-sync').create();
 
-gulp.task("copy-dist", function() {
-  return gulp.src('PTM/webapp/app/dist/*.js')
-    .pipe(gulp.dest('PTM/webapp/static/js'));
+var build = function (cfg) {
+    return browserify({
+            basedir: '.',
+            debug: cfg.debug,
+            entries: ['PTM/client/main.ts'],
+            cache: {},
+            packageCache: {}
+        })
+        .plugin(tsify)
+        .bundle()
+        .pipe(source('app.js'))
+        .pipe(gulp.dest("PTM/webapp/static/js/"))
+        .pipe(browserSync.init({
+            server: {
+                baseDir: "./"
+            }
+        }));
+}
+
+
+gulp.task("debug", function () {
+    return build({
+        debug: true
+    })
 });
 
-gulp.task("default", ['copy-dist'], function () {
-    return browserify({
-        basedir: '.',
-        debug: true,
-        entries: ['PTM/webapp/app/src/main.ts'],
-        cache: {},
-        packageCache: {}
+
+gulp.task("build", function () {
+    return build({
+        debug: false
     })
-    .plugin(tsify)
-    .transform('babelify', {
-        presets: ['es2015'],
-        extensions: ['.ts']
-    })
-    .bundle()
-    .pipe(source('bundle.js'))
-    .pipe(buffer())
-    .pipe(sourcemaps.init({loadMaps: true}))
-    .pipe(uglify())
-    .pipe(sourcemaps.write('./'))
-    .pipe(gulp.dest("PTM/webapp/app/dist"));
+});
+
+gulp.task("watch", function () {
+    gulp.watch(['PTM/client/**/*.ts'], ['debug']);
+    gulp.watch(['PTM/webapp/static/js/app.js']).on('change', browserSync.reload);
+
+});
+
+gulp.task("default", ["debug"], function () {
+    gulp.start('watch');
 });
