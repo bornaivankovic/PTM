@@ -2,9 +2,11 @@
 <html>
 
 <head>
-
+  <link rel="stylesheet" type="text/css" href="{% static 'styles/vis.min.css' %}" />
+ 
   <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}" />
-  <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+  
+  
 </head>
 
 <body>
@@ -14,7 +16,12 @@
       <div class="col-md-8">
         {% block content %} {% endblock %}
       </div>
+      <div class="row" id="network">
+
+      </div>
     </div>
   </div>
 </body>
+ <script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
+ <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
 </html>
