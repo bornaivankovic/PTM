@@ -1,9 +1,17 @@
-export interface FailRepairRateInterface {
-    failureRate: number;
-    repairRate: number;
+export class FailRepairRate {
+    private failureRate: number=6;
+    private repairRate: number;
 
-    setFailureRate(rate: number): void;
-    setRepairRate(rate: number): void;
-    getFailureRate(): number;
-    getRepairRate(): number;
+    public setFailureRate(rate: number): void{
+        this.failureRate = rate;
+    }
+    public setRepairRate(rate: number): void {
+        this.repairRate = rate;
+    }
+    public getFailureRate(): number {
+        return this.failureRate;
+    }
+    public getRepairRate(): number {
+        return this.repairRate;
+    }
 }
