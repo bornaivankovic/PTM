@@ -1,1 +1,3 @@
-console.log("radi nesto w");
+import { Node } from './models/node';
+
+console.log(new Node);
