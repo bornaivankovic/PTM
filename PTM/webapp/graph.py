@@ -1,6 +1,7 @@
 from node import Node
 from link import Link
 from collections import defaultdict
+import json
 
 
 def find_all_paths(graph, start, end, path=[]):
@@ -27,19 +28,19 @@ class Graph:
 
     def node_by_name(self, name):
         for node in self.nodes:
-            if node.name == name:
-                return node
+            if node.label == name:
+                return name
 
     def graph_to_dict(self):
         d={}
         for n in self.nodes:
             lns=[]
             for l in self.links:
-                if l.n1.name==n.name:
-                    lns.append(l.n2.name)
-                elif l.n2.name==n.name:
-                    lns.append(l.n1.name)
-            d[n.name]=lns
+                if l.src.label==n.label:
+                    lns.append(l.dest.label)
+                elif l.dest.label==n.label:
+                    lns.append(l.src.label)
+            d[n.label]=lns
         return d
 
     def dijkstra(self, source, terminal):
@@ -48,15 +49,15 @@ class Graph:
         distance = {}
 
         for node in self.nodes:
-            nodes.add(node.name)
+            nodes.add(node.label)
 
         for edge in self.links:
-            edges[edge.n1.name].append(edge.n2.name)
-            edges[edge.n2.name].append(edge.n1.name)
-            distance[(edge.n1.name, edge.n2.name)] = edge.length
-            distance[(edge.n2.name, edge.n1.name)] = edge.length
+            edges[edge.src.label].append(edge.dest.label)
+            edges[edge.dest.label].append(edge.src.label)
+            distance[(edge.src.label, edge.dest.label)] = edge.length
+            distance[(edge.dest.label, edge.src.label)] = edge.length
 
-        visited = {source.name: 0}
+        visited = {source.label: 0}
         path = {}
 
         print 'Nodes: ', nodes
@@ -96,7 +97,18 @@ class Graph:
 
     def get_all_paths(self,n1,n2):
         g=self.graph_to_dict()
-        return find_all_paths(g,n1.name,n2.name)
+        return find_all_paths(g,n1.label,n2.label)
+
+    def to_json(self):
+        ns="{\"nodes\":["
+        for i in self.nodes:
+            ns+="{\"label\":\""+i.label+"\",\"repairRate\":"+str(i.repairRate)+",\"failureRate\":"+str(i.failureRate)+"},"
+        ns=ns[:-1]+"],"
+        ls="\n\"links\":["
+        for i in self.links:
+            ls+="{\"length\":"+str(i.length)+",\"repairRate\":"+str(i.repairRate)+",\"failureRate\":"+str(i.failureRate)+",\"src\":\""+i.src.__repr__()+"\",\"dest\":\""+i.dest.__repr__()+"\"},"
+        ls=ls[:-1]+"]}\n"
+        return json.loads(ns+ls)
         
 
         
@@ -115,5 +127,5 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1]),
          Link(1, 0.4, 0.6, nodes[3], nodes[4])]
 g = Graph(nodes, links)
 print g.nodes, g.links
-#g.dijkstra(nodes[0], nodes[4])
-print g.get_all_paths(nodes[0],nodes[4])
+g.dijkstra(nodes[0], nodes[4])
+#print g.get_all_paths(nodes[0],nodes[4])

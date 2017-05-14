@@ -1,17 +1,17 @@
 class Node:
     def __init__(self,name,la,mi):
-        self.name=str(name)
-        self.la=la
-        self.mi=mi
+        self.label=str(name)
+        self.failureRate=la
+        self.repairRate=mi
     
     def __repr__(self):
-        return self.name
+        return self.label
 
     
 def node_from_dict(d):
-    name=str(d["name"])
-    la=d["lambda"]
-    mi=d["mi"]
+    name=str(d["label"])
+    la=d["failureRate"]
+    mi=d["repairRate"]
     return Node(name,la,mi)
 
     
