@@ -10,26 +10,26 @@ $ python manage.py runserver
 ```
 # JSON format
  ```JSON
- {
- 	"nodes":[
- 		{
- 			"name":"node1",
- 			"lambda":0.3,
- 			"mi":0.7
- 		},
- 		{
- 			"name":"node2",
- 			"lambda":0.5,
- 			"mi":0.6
- 		}
- 		],
- 	"links":[{
- 		"length":10,
- 		"lambda":0.5,
- 		"mi":0.6,
- 		"n1":"node1",
- 		"n2":"node2"
- 	}
- 		]
- }
+{
+  "nodes":[
+    {
+      "label":"node1",
+      "failureRate":0.3,
+      "repairRate":0.7
+    },
+    {
+      "label":"node2",
+      "failureRate":0.5,
+      "repairRate":0.6
+    }
+    ],
+  "links":[{
+    "length":10,
+    "failureRate":0.5,
+    "repairRate":0.6,
+    "src":"node1",
+    "dest":"node2"
+  }
+    ]
+}
  ```
