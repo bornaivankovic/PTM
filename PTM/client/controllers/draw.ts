@@ -1,3 +1,15 @@
 export class DrawController {
-    constructor() {};
+
+    private data: any;
+    private enabled: boolean = true;
+   
+    constructor(data: any) {
+        this.data = data;
+    };
+
+    addEdge(data: any, callback:any) {
+
+    }
+
+
 }
