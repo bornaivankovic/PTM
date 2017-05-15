@@ -7,26 +7,17 @@ let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
 function renderTopology() {
     var container = document.getElementById('network');
-    console.log(container);
 
 
 
 
 
 
-    let testnode: Node = new Node();
-    testnode.setId("borna");
-    testnode.setLabel("patak");
 
-    let testnode2: Node = new Node();
-    testnode2.setId("vedran");
-    testnode2.setLabel("patka");
+    let testnode: Node = new Node("patak","borna");
+    let testnode2: Node = new Node("patka","vedran");
 
-    let testedge: Edge = new Edge();
-    testedge.setFrom("vedran");
-    testedge.setTo("borna");
-    testedge.setId("tajnaveza");
-    testedge.setLabel("istinska ljubav");
+    let testedge: Edge = new Edge("istinska ljubav", "tajnaveza", "vedran", "borna" );
 
     nodes.push(testnode);
     nodes.push(testnode2);
@@ -48,7 +39,7 @@ function renderTopology() {
             addNode: function (data: any, callback: any) {
                 // filling in the popup DOM elements
                 document.getElementById('node-operation').innerHTML = "Add Node";
-                console.log("1");
+
                 editNode(data, callback);
             },
             editNode: function (data: any, callback: any) {
@@ -101,8 +92,9 @@ function cancelNodeEdit(callback: any) {
 function saveNodeData(data: any, callback: any) {
     data.label = (<HTMLInputElement>document.getElementById('node-label')).value;
     clearNodePopUp();
-        nodes.push(data);
-            console.log(nodes);
+    let tempNode: Node = new Node(data.label, data.id);
+    nodes.push(tempNode);
+    console.log(nodes);
     callback(data);
 
 
@@ -133,6 +125,9 @@ function saveEdgeData(data: any, callback: any) {
     if (typeof data.from === 'object')
         data.from = data.from.id
     data.label = (<HTMLInputElement>document.getElementById('edge-label')).value;
+    let tempEdge: Edge = new Edge(data.label, data.id, data.from, data.to);
+    edges.push(tempEdge);
+    console.log(edges);
     clearEdgePopUp();
     callback(data);
 
