@@ -1,6 +1,9 @@
 from node import Node
 from link import Link
 from collections import defaultdict
+from itertools import permutations
+import json
+from heapq import *
 
 
 def find_all_paths(graph, start, end, path=[]):
@@ -16,6 +19,31 @@ def find_all_paths(graph, start, end, path=[]):
             for newpath in newpaths:
                 paths.append(newpath)
     return paths
+    
+def dijkstra(graph,src,dest,visited=[],distances={},predecessors={}):
+    if src == dest:
+        path=[]
+        pred=dest
+        while pred != None:
+            path.append(pred)
+            pred=predecessors.get(pred,None)
+        return path
+    else :     
+        if not visited: 
+            distances[src]=0
+        for neighbor in graph[src] :
+            if neighbor not in visited:
+                new_distance = distances[src] + graph[src][neighbor]
+                if new_distance < distances.get(neighbor,float('inf')):
+                    distances[neighbor] = new_distance
+                    predecessors[neighbor] = src
+        visited.append(src)
+        unvisited={}
+        for k in graph:
+            if k not in visited:
+                unvisited[k] = distances.get(k,float('inf'))        
+        x=min(unvisited, key=unvisited.get)
+        return dijkstra(graph,x,dest,visited,distances,predecessors)
 
 class Graph:
     def __init__(self, nodes, links):
@@ -27,80 +55,55 @@ class Graph:
 
     def node_by_name(self, name):
         for node in self.nodes:
-            if node.name == name:
-                return node
+            if node.label == name:
+                return name
 
-    def graph_to_dict(self):
+    def graph_to_dict(self,distances=False):
         d={}
         for n in self.nodes:
-            lns=[]
-            for l in self.links:
-                if l.n1.name==n.name:
-                    lns.append(l.n2.name)
-                elif l.n2.name==n.name:
-                    lns.append(l.n1.name)
-            d[n.name]=lns
-        return d
-
-    def dijkstra(self, source, terminal):
-        nodes = set()
-        edges = defaultdict(list)
-        distance = {}
-
-        for node in self.nodes:
-            nodes.add(node.name)
-
-        for edge in self.links:
-            edges[edge.n1.name].append(edge.n2.name)
-            edges[edge.n2.name].append(edge.n1.name)
-            distance[(edge.n1.name, edge.n2.name)] = edge.length
-            distance[(edge.n2.name, edge.n1.name)] = edge.length
-
-        visited = {source.name: 0}
-        path = {}
-
-        print 'Nodes: ', nodes
-        print 'Edges: ', edges
-        print 'Distances: ', distance
-        print 'a: ', edges['b']
-
-        nodes = set(nodes)
-        
-        while nodes:
-            min_node = None
-            for node in nodes:
-                if node in visited:
-                    if min_node is None:
-                        min_node = node
-                    elif visited[node] < visited[min_node]:
-                        min_node = node
-            print 'Minimal node: ', min_node
-
-            if min_node is None:
-                break
-
-            nodes.remove(min_node)
-            current_weight = visited[min_node]
-            
-
-            print 'Minimal node edges: ', edges.get(min_node)
-
-            for edge in edges[min_node]:
-                weight = current_weight + distance[(min_node, edge)]
-                if edge not in visited or weight < visited[edge]:
-                    visited[edge] = weight
-                    path[edge] = min_node
-
-        print visited, path
-        
+            if distances==False:
+                lns=[]
+                for l in self.links:
+                    if l.src.label==n.label:
+                        lns.append(l.dest.label)
+                    elif l.dest.label==n.label:
+                        lns.append(l.src.label)
+                d[n.label]=lns
+            else:
+                lns={}
+                for l in self.links:
+                    if l.src.label==n.label:
+                        lns[l.dest.label]=l.length
+                    elif l.dest.label==n.label:
+                        lns[l.src.label]=l.length
+                d[n.label]=lns
+        return d        
 
     def get_all_paths(self,n1,n2):
         g=self.graph_to_dict()
-        return find_all_paths(g,n1.name,n2.name)
-        
+        return find_all_paths(g,n1.label,n2.label)
 
-        
+    def ele_path_dijkstra(self,n1,n2):
+        g=self.graph_to_dict(True)
+        p1=dijkstra(g,n1.label,n2.label)
+        p1.reverse()
+        for i in range(len(p1)-1):
+            g[p1[i]].pop(p1[i+1])
+            g[p1[i+1]].pop(p1[i])
+        p2=dijkstra(g,n1.label,n2.label)
+        if p2 !=None: p2.reverse()
+        return (p1,p2)
 
+    def to_json(self):
+        ns="{\"nodes\":["
+        for i in self.nodes:
+            ns+="{\"label\":\""+i.label+"\",\"repairRate\":"+str(i.repairRate)+",\"failureRate\":"+str(i.failureRate)+"},"
+        ns=ns[:-1]+"],"
+        ls="\n\"links\":["
+        for i in self.links:
+            ls+="{\"length\":"+str(i.length)+",\"repairRate\":"+str(i.repairRate)+",\"failureRate\":"+str(i.failureRate)+",\"src\":\""+i.src.__repr__()+"\",\"dest\":\""+i.dest.__repr__()+"\"},"
+        ls=ls[:-1]+"]}\n"
+        return json.loads(ns+ls)
 
 nodes = [Node('a', 0.5, 0.7),
          Node('b', 0.4, 0.7),
@@ -114,6 +117,4 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1]),
          Link(1, 0.4, 0.6, nodes[1], nodes[4]),
          Link(1, 0.4, 0.6, nodes[3], nodes[4])]
 g = Graph(nodes, links)
-print g.nodes, g.links
-#g.dijkstra(nodes[0], nodes[4])
-print g.get_all_paths(nodes[0],nodes[4])
+g.ele_path_dijkstra(nodes[0],nodes[4])
