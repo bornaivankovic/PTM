@@ -3,10 +3,10 @@
 
 <head>
   <link rel="stylesheet" type="text/css" href="{% static 'styles/vis.min.css' %}" />
- 
+
   <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}" />
-  
-  
+
+
 </head>
 
 <body>
@@ -16,12 +16,41 @@
       <div class="col-md-8">
         {% block content %} {% endblock %}
       </div>
+      <div id="node-popUp">
+        <span id="node-operation">node</span> <br>
+        <table style="margin:auto;">
+          <tr>
+            <td>id</td>
+            <td><input id="node-id" value="new value" /></td>
+          </tr>
+          <tr>
+            <td>label</td>
+            <td><input id="node-label" value="new value" /></td>
+          </tr>
+        </table>
+        <input type="button" value="save" id="node-saveButton" />
+        <input type="button" value="cancel" id="node-cancelButton" />
+      </div>
+
+      <div id="edge-popUp">
+        <span id="edge-operation">edge</span> <br>
+        <table style="margin:auto;">
+          <tr>
+            <td>label</td>
+            <td><input id="edge-label" value="new value" /></td>
+          </tr>
+        </table>
+        <input type="button" value="save" id="edge-saveButton" />
+        <input type="button" value="cancel" id="edge-cancelButton" />
+      </div>
       <div class="row" id="network">
 
       </div>
     </div>
   </div>
 </body>
- <script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
- <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+
+<script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+
 </html>
