@@ -17,6 +17,14 @@ export class Topology {
         
     }
 
+    getEdgeById(id: string): Edge {
+        for(let edge of this.edges) {
+            if(edge.getId() === id) {
+                return edge;
+            }
+        }
+    }
+
     getNodes(): Node[] {
         return this.nodes;
     }
@@ -33,11 +41,5 @@ export class Topology {
         this.edges.push(edge);
     }
 
-    getEdgeById(id: string): Edge {
-        for(let edge of this.edges) {
-            if(edge.getId() === id) {
-                return edge;
-            }
-        }
-    }
+    
 }
