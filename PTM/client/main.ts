@@ -100,9 +100,12 @@ function cancelNodeEdit(callback: any) {
 
 function saveNodeData(data: any, callback: any) {
     data.label = (<HTMLInputElement>document.getElementById('node-label')).value;
+    data.id = (<HTMLInputElement>document.getElementById('node-id')).value;
+    data.failureRate = (<HTMLInputElement>document.getElementById('node-failureRate')).value;
+    data.repairRate = (<HTMLInputElement>document.getElementById('node-repairRate')).value;
     clearNodePopUp();
-        nodes.push(data);
-            console.log(nodes);
+    //nodes.push();
+    console.log(nodes);
     callback(data);
 
 
