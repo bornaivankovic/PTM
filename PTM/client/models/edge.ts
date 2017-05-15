@@ -13,6 +13,13 @@ export class Edge extends FailRepairRate {
     private src: string;
     private dest: string;
     
+    constructor(label:string, id:string, from:string, to:string){
+        super();
+        this.label = label;
+        this.id = id;
+        this.from = from;
+        this.to = to;
+    }
 
 
     /* Getters and setters */
