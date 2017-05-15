@@ -8,6 +8,15 @@ export class Topology {
 
     constructor() {}
 
+    getNodeById(id: string): Node {
+        for(let node of this.nodes){
+            if(node.getId() === id){
+                return node;
+            }
+        }
+        
+    }
+
     getNodes(): Node[] {
         return this.nodes;
     }
