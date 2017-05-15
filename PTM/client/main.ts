@@ -1,5 +1,6 @@
 import { Node } from './models/node';
 import { Edge } from './models/edge';
+import { DrawController } from './controllers/draw';
 
 declare var vis: any;
 function renderTopology(){
@@ -33,13 +34,16 @@ function renderTopology(){
     let visnodes = new vis.DataSet(nodes);
     let visedges = new vis.DataSet(edges);
 
-
-
     var data = {
         nodes: visnodes,
         edges: visedges
     };
-    var options = {};
+    var draw = new DrawController();
+
+    var options = {
+        manipulation:  draw
+
+    };
 
     // initialize your network!
     var network = new vis.Network(container, data, options);

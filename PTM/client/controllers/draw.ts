@@ -1,11 +1,14 @@
 export class DrawController {
 
 
-    constructor() {
+    private data: any;
+    private enabled: boolean = true;
+   
+    constructor(data: any) {
+        this.data = data;
     };
 
     
-
     editNode(data:any, callback:any): void {
       (<HTMLInputElement>document.getElementById('node-label')).value = data.label;
       document.getElementById('node-saveButton').onclick = this.saveNodeData.bind(this, data, callback);
@@ -24,4 +27,13 @@ export class DrawController {
       this.clearNodePopUp();
       callback(data);
     }
+
+    
+
+    addEdge(data: any, callback:any) {
+
+    }
+
+
+
 }
