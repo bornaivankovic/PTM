@@ -25,7 +25,19 @@ export class Topology {
         return this.edges
     }
 
-    
+    setNode(node: Node): void {
+        this.nodes.push(node);
+    }
 
-    
+    setEdge(edge: Edge): void {
+        this.edges.push(edge);
+    }
+
+    getEdgeById(id: string): Edge {
+        for(let edge of this.edges) {
+            if(edge.getId() === id) {
+                return edge;
+            }
+        }
+    }
 }
