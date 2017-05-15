@@ -14,8 +14,8 @@ function renderTopology() {
 
 
 
-    let testnode: Node = new Node("patak","borna");
-    let testnode2: Node = new Node("patka","vedran");
+    let testnode: Node = new Node("patak","borna",12,34);
+    let testnode2: Node = new Node("patka","vedran",56,78);
 
     let testedge: Edge = new Edge("istinska ljubav", "tajnaveza", "vedran", "borna" );
 
@@ -92,11 +92,11 @@ function cancelNodeEdit(callback: any) {
 function saveNodeData(data: any, callback: any) {
     data.label = (<HTMLInputElement>document.getElementById('node-label')).value;
     data.id = (<HTMLInputElement>document.getElementById('node-id')).value;
-    data.failureRate = (<HTMLInputElement>document.getElementById('node-failureRate')).value;
-    data.repairRate = (<HTMLInputElement>document.getElementById('node-repairRate')).value;
+    data.failureRate = Number((<HTMLInputElement>document.getElementById('node-failureRate')).value);
+    data.repairRate = Number((<HTMLInputElement>document.getElementById('node-repairRate')).value);
     clearNodePopUp();
 
-    let tempNode: Node = new Node(data.label, data.id);
+    let tempNode: Node = new Node(data.label, data.id, data.failureRate, data.repairRate);
     nodes.push(tempNode);
     console.log(nodes);
     callback(data);
@@ -129,7 +129,11 @@ function saveEdgeData(data: any, callback: any) {
     if (typeof data.from === 'object')
         data.from = data.from.id
     data.label = (<HTMLInputElement>document.getElementById('edge-label')).value;
-    let tempEdge: Edge = new Edge(data.label, data.id, data.from, data.to);
+    data.id = (<HTMLInputElement>document.getElementById('edge-id')).value;
+    data.failureRate = Number((<HTMLInputElement>document.getElementById('edge-failureRate')).value);
+    data.repairRate =Number((<HTMLInputElement>document.getElementById('edge-repairRate')).value);
+    data.length =Number((<HTMLInputElement>document.getElementById('edge-length')).value);
+    let tempEdge: Edge = new Edge(data.label, data.id, data.from, data.to, data.length, data.failureRate, data.repairRate);
     edges.push(tempEdge);
     console.log(edges);
     clearEdgePopUp();

@@ -4,10 +4,12 @@ export class Node extends FailRepairRate {
     private label: string;
     private id: string;
 
-    constructor(label:string,id:string) { 
+    constructor(label:string,id:string, failureRate:number, repairRate:number) { 
         super();
         this.label = label;
         this.id = id;
+        super.setFailureRate(failureRate);
+        super.setRepairRate(repairRate); 
      }
 
     getLabel(): string {
