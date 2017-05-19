@@ -44,6 +44,11 @@ def dijkstra(graph,src,dest,visited=[],distances={},predecessors={}):
         x=min(unvisited, key=unvisited.get)
         return dijkstra(graph,x,dest,visited,distances,predecessors)
 
+def paths_to_json(p1, p2):
+    if len(p2) > 1:
+        return json.loads("{\"path1\":\"" + ("-").join(p1) + "\",\"path2\":\"" + ("-").join(p2) + "\"}")
+    else:
+        return json.loads("{\"path1\":\"" + ("-").join(p1) + "\"}")
 
 class Graph:
     def __init__(self, nodes, links):
@@ -90,14 +95,14 @@ class Graph:
 
     def ele_path_dijkstra(self,n1,n2):
         g=self.graph_to_dict(True)
-        p1=dijkstra(g,n1.label,n2.label)
+        p1=dijkstra(g,n1.label,n2.label, [], {}, {})
         p1.reverse()
         for i in range(len(p1)-1):
             g[p1[i]].pop(p1[i+1])
             g[p1[i+1]].pop(p1[i])
-        p2=dijkstra(g,n1.label,n2.label,[],{},{})
-        if p2 !=None: p2.reverse()
-        return (p1,p2)
+        p2=dijkstra(g,n1.label,n2.label, [], {}, {})
+        if p2 != None: p2.reverse()
+        return paths_to_json(p1, p2)
 
     def to_json(self):
         ns="{\"nodes\":["
