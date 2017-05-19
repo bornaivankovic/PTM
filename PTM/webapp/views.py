@@ -51,7 +51,7 @@ def dijkstra(request):
                 end = i
             d[i.label] = i
         for i in linksLabels:
-            links.append(Link(i.length, i.failureRate, i.repairRate, d[i.src], d[i.dest]))
+            links.append(Link(i.length, i.failureRate, i.repairRate, d[i.src], d[i.dest],i.label))
         request.session["nodes"] = nodes
         request.session["links"] = links
         g = Graph(nodes, links)
