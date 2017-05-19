@@ -28,7 +28,8 @@ $ python manage.py runserver
     "failureRate":0.5,
     "repairRate":0.6,
     "src":"node1",
-    "dest":"node2"
+    "dest":"node2",
+    "label":"e1"
   }
     ]
 }

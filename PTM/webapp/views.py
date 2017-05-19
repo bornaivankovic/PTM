@@ -24,9 +24,10 @@ def topo(request):
             links.append(link_from_dict(i))
         request.session["nodes"]=nodes
         request.session["links"]=links
-    else:
         nodes=request.session["nodes"]
         links=request.session["links"]
         graph=Graph(nodes,links)
-        return JsonResponse(graph.to_json())
+        return JsonResponse(graph.to_json())       
     return HttpResponse("OK")
+
+
