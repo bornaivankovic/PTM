@@ -90,7 +90,7 @@ class Graph:
         for i in range(len(p1)-1):
             g[p1[i]].pop(p1[i+1])
             g[p1[i+1]].pop(p1[i])
-        p2=dijkstra(g,n1.label,n2.label)
+        p2=dijkstra(g,n1.label,n2.label, [], {}, {})
         if p2 !=None: p2.reverse()
         return (p1,p2)
 
@@ -117,4 +117,4 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1]),
          Link(1, 0.4, 0.6, nodes[1], nodes[4]),
          Link(1, 0.4, 0.6, nodes[3], nodes[4])]
 g = Graph(nodes, links)
-g.ele_path_dijkstra(nodes[0],nodes[4])
+print g.ele_path_dijkstra(nodes[0],nodes[4])
