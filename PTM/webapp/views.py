@@ -56,9 +56,15 @@ def dijkstra(request):
         request.session["links"] = links
         g = Graph(nodes, links)
         path = g.ele_path_dijkstra(start, end)
-        return JsonResponse(path)
+        s=json.dumps(path)
+        rel=g.calculate_reliability(start,end,json.loads(request.body)["t"])
+        s=s[:-1]
+        s+=",\"reliability\":"+str(rel)+"}"
+        respone=json.loads(s)
+        return JsonResponse(respone)
     else:
         nodes = request.session["nodes"]
         links = request.session["links"]
         g = Graph(nodes, links)
         return JsonResponse(g.to_json())
+
