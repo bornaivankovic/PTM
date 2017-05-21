@@ -1,9 +1,12 @@
+
 from node import Node
 from link import Link
 from collections import defaultdict
 from itertools import permutations
 import json
 from heapq import *
+from abraham import abraham
+from math import exp
 
 def find_all_paths(graph, start, end, path=[]):
     path = path + [start]
@@ -118,7 +121,7 @@ class Graph:
     def ele_paths_to_bool(self,n1,n2):
         paths=self.get_all_paths(n1,n2)
         bool_paths=[]
-        bool_paths.append(([x.label for x in self.links],[x.label for x in self.nodes if x!=n1 and x!=n2]))
+        bool_paths.append([x.label for x in self.links]+[x.label for x in self.nodes if x!=n1 and x!=n2])
         for i in paths:
             l,n=[],[]
             for j in self.nodes:
@@ -136,28 +139,29 @@ class Graph:
                     l.append("1")
                 else:
                     l.append("-")
-            bool_paths.append((l,n))
+            bool_paths.append(l+n)
         return bool_paths
 
-def pretty_print(arr):
-    s=""
-    for i in range(len(arr)):
-        if i==0:
-            for j in arr[i][0]:
-                s+=j+" "
-            s+="|"
-            for j in arr[i][1]:
-                s+=j+" "
-            s+="\n"
-            s+="-"*len(s)+"\n"
-        else:
-            for j in arr[i][0]:
-                s+=j+"  "
-            s+="|"
-            for j in arr[i][1]:
-                s+=j+" "
-            s+="\n"
-    print s
+    def find_failure_rate(self,s):
+        for i in self.links:
+            if i.label==s:
+                return i.failureRate
+        for i in self.nodes:
+            if i.label==s:
+                return i.failureRate
+
+    def calculate_reliability(self,n1,n2,t):
+        a=self.ele_paths_to_bool(n1,n2)
+        b=abraham(a)
+        R=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
+        for i in b:
+            tmp=1
+            for j in range(len(i)):
+                if i[j]=="1":
+                    tmp*=exp(-self.find_failure_rate(a[0][j])*t)
+            R+=tmp
+        return R
+
 
 nodes = [Node('a', 0.5, 0.7),
          Node('b', 0.4, 0.7),
@@ -172,4 +176,4 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1],'e1'),
          Link(1, 0.4, 0.6, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 print g.get_all_paths(nodes[0],nodes[4])
-pretty_print(g.ele_paths_to_bool(nodes[0],nodes[4]))
+print g.calculate_reliability(nodes[0],nodes[4],5)
