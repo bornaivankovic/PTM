@@ -33,6 +33,8 @@ function renderTopology() {
     topology.setNodes(nodes);
     topology.setEdges(edges);
 
+    topology.setStartNode(testnode.getLabel());
+     topology.setEndNode(testnode2.getLabel());
     ajaxRequest.sendTopology(topology);
 
     var options = {

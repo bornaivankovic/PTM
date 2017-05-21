@@ -6,6 +6,10 @@ export class Topology {
     private nodes: Array<Node>;
     private links: Array<Edge>;
 
+    //DIJKSTRA parameters -> start & end node
+    private start: string;
+    private end: string;
+
     constructor() {
         this.nodes = new Array<Node>();
         this.links = new Array<Edge>();
@@ -52,5 +56,18 @@ export class Topology {
         this.links = edges;
     }
 
-    
+    getStartNode(): string {
+        return this.start;
+    }    
+
+    setStartNode(start: string): void {
+        this.start = start;
+    }
+    getEndNode(): string {
+        return this.end;
+    }    
+
+    setEndNode(end: string): void {
+        this.end = end;
+    }
 }
