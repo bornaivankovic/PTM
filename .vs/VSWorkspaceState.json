@@ -2,8 +2,9 @@
   "ExpandedNodes": [
     "",
     "\\PTM",
-    "\\PTM\\webapp",
-    "\\PTM\\webapp\\client"
+    "\\PTM\\client",
+    "\\PTM\\client\\controllers"
   ],
+  "SelectedNode": "\\PTM\\client\\controllers\\ajax.controller.ts",
   "PreviewInSolutionExplorer": false
 }

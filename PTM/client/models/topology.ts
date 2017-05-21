@@ -4,9 +4,16 @@ import { Edge } from './edge';
 
 export class Topology {
     private nodes: Array<Node>;
-    private edges: Array<Edge>;
+    private links: Array<Edge>;
 
-    constructor() {}
+    //DIJKSTRA parameters -> start & end node
+    private start: string;
+    private end: string;
+
+    constructor() {
+        this.nodes = new Array<Node>();
+        this.links = new Array<Edge>();
+    }
 
     getNodeById(id: string): Node {
         for(let node of this.nodes){
@@ -14,11 +21,10 @@ export class Topology {
                 return node;
             }
         }
-        
     }
 
     getEdgeById(id: string): Edge {
-        for(let edge of this.edges) {
+        for(let edge of this.links) {
             if(edge.getId() === id) {
                 return edge;
             }
@@ -30,16 +36,37 @@ export class Topology {
     }
 
     getEdges(): Edge[] {
-        return this.edges
+        return this.links
     }
 
     setNode(node: Node): void {
         this.nodes.push(node);
     }
 
-    setEdge(edge: Edge): void {
-        this.edges.push(edge);
+    setNodes(nodes: Node[]): void {
+        this.nodes = nodes;
     }
 
-    
+    setEdge(edge: Edge): void {
+        this.links.push(edge);
+    }
+
+    setEdges(edges: Edge[]): void {
+        this.links = edges;
+    }
+
+    getStartNode(): string {
+        return this.start;
+    }    
+
+    setStartNode(start: string): void {
+        this.start = start;
+    }
+    getEndNode(): string {
+        return this.end;
+    }    
+
+    setEndNode(end: string): void {
+        this.end = end;
+    }
 }

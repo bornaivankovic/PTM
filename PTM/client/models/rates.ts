@@ -1,6 +1,8 @@
 export class FailRepairRate {
-    private failureRate: number=6;
+    private failureRate: number;
     private repairRate: number;
+
+    constructor() {}
 
     public setFailureRate(rate: number): void{
         this.failureRate = rate;

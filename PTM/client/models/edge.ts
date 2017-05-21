@@ -19,6 +19,8 @@ export class Edge extends FailRepairRate {
         this.id = id;
         this.from = from;
         this.to = to;
+        this.src = from;
+        this.dest = to;
         this.length = length;
         super.setFailureRate(failureRate);
         super.setRepairRate(repairRate);

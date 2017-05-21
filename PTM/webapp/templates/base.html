@@ -1,98 +1,58 @@
 {% load staticfiles %}
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
-  <link rel="stylesheet" type="text/css" href="{% static 'styles/vis.min.css' %}" />
-
-  <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}" />
-
-
+    <title></title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
+        crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/vis.min.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}" />
 </head>
 
 <body>
+    <header class="header-container">
+        <nav class="nav-container">
+            <div class="logo-container">
+                <a href="" class="logo">LOGO</a>
+            </div>
+            <div class="link-container">
+                <ul class="menu">
+                    <li class="login-logout-container">
+                        <a href="" class="login-logout">ODJAVI SE</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="mobile-menu-container"></div>
+        </nav>
+    </header>
+    <main class="main-container">
+        <section class="network-container">
+            <div class="network-topology" id="network">
 
-  <div class="content container">
-    <div class="row">
-      <div class="col-md-8" id="add">
+            </div>
+        </section>
+        <aside class="right-aside-container">
+            <div class="element-info-container">
 
-      </div>
-      <div class="col-md-8">
-        {% block content %} {% endblock %}
-      </div>
-      <div id="node-popUp">
-        <span id="node-operation">node</span> <br>
-        <table style="margin:auto;">
-          <tr>
-            <td>Node id</td>
-            <td><input id="node-id" value="" /></td>
-          </tr>
-          <tr>
-            <td>Node label</td>
-            <td><input id="node-label" value="" /></td>
-          </tr>
-          <tr>
-            <td>Node failure rate</td>
-            <td><input id="node-failureRate" value="" /></td>
-          </tr>
-          <tr>
-            <td>Node repair rate</td>
-            <td><input id="node-repairRate" value="" /></td>
-          </tr>
-        </table>
-        <input type="button" value="save" id="node-saveButton" />
-        <input type="button" value="cancel" id="node-cancelButton" />
-      </div>
+            </div>
+            <div class="calculation-container">
 
-      <div id="edge-popUp">
-        <span id="edge-operation">edge</span> <br>
-        <table style="margin:auto;">
-          <tr>
-            <td>Label</td>
-            <td><input id="edge-label" value="" /></td>
-          </tr>
-          <tr>
-            <td>Id</td>
-            <td><input id="edge-id" value="" /></td>
-          </tr>
-          <tr>
-            <td>Length</td>
-            <td><input id="edge-length" value="" /></td>
-          </tr>
-          <tr>
-            <td>Failure Rate</td>
-            <td><input id="edge-failureRate" value="" /></td>
-          </tr>
-          <tr>
-            <td>Repair Rate</td>
-            <td><input id="edge-repairRate" value="" /></td>
-          </tr>
-        </table>
-        <input type="button" value="save" id="edge-saveButton" />
-        <input type="button" value="cancel" id="edge-cancelButton" />
-      </div>
-      <div class="row" id="network">
+            </div>
+        </aside>
+    </main>
+    <footer class="footer-container">
 
-      </div>
-
-      <div id="node-popUp">
-        <span id="node-operation">node</span> <br>
-        <table style="margin:auto;">
-          <tr>
-            <td>id</td>
-            <td><input id="node-id" value="new value" /></td>
-          </tr>
-          <tr>
-            <td>label</td>
-            <td><input id="node-label" value="new value" /></td>
-          </tr>
-        </table>
-        <input type="button" value="save" id="node-saveButton" />
-        <input type="button" value="cancel" id="node-cancelButton" />
-      </div>
-    </div>
-  </div>
+    </footer>
 </body>
+<script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
+    crossorigin="anonymous"></script>
 
 </html>
