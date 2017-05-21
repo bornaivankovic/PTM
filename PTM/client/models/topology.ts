@@ -4,9 +4,12 @@ import { Edge } from './edge';
 
 export class Topology {
     private nodes: Array<Node>;
-    private edges: Array<Edge>;
+    private links: Array<Edge>;
 
-    constructor() {}
+    constructor() {
+        this.nodes = new Array<Node>();
+        this.links = new Array<Edge>();
+    }
 
     getNodeById(id: string): Node {
         for(let node of this.nodes){
@@ -18,7 +21,7 @@ export class Topology {
     }
 
     getEdgeById(id: string): Edge {
-        for(let edge of this.edges) {
+        for(let edge of this.links) {
             if(edge.getId() === id) {
                 return edge;
             }
@@ -30,15 +33,23 @@ export class Topology {
     }
 
     getEdges(): Edge[] {
-        return this.edges
+        return this.links
     }
 
     setNode(node: Node): void {
         this.nodes.push(node);
     }
 
+    setNodes(nodes: Node[]): void {
+        this.nodes = nodes;
+    }
+
     setEdge(edge: Edge): void {
-        this.edges.push(edge);
+        this.links.push(edge);
+    }
+
+    setEdges(edges: Edge[]): void {
+        this.links = edges;
     }
 
     

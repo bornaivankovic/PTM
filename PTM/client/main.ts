@@ -1,23 +1,23 @@
 import { Node } from './models/node';
 import { Edge } from './models/edge';
+import { AjaxController } from './controllers/ajax.controller';
+import { Topology } from './models/topology';
 
 declare var vis: any;
 
 let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
+let topology: Topology = new Topology();
+
 function renderTopology() {
+    
     var container = document.getElementById('network');
-
-
-
-
-
-
+    var ajaxRequest: AjaxController = new AjaxController();
 
     let testnode: Node = new Node("patak","borna",12,34);
     let testnode2: Node = new Node("patka","vedran",56,78);
 
-    let testedge: Edge = new Edge("istinska ljubav", "tajnaveza", "vedran", "borna" );
+    let testedge: Edge = new Edge("istinska ljubav", "tajnaveza", "patak", "patka", 1,2,3 );
 
     nodes.push(testnode);
     nodes.push(testnode2);
@@ -30,6 +30,10 @@ function renderTopology() {
         nodes: visnodes,
         edges: visedges
     };
+    topology.setNodes(nodes);
+    topology.setEdges(edges);
+
+    ajaxRequest.sendTopology(topology);
 
     var options = {
         layout: {
@@ -85,7 +89,7 @@ function clearNodePopUp() {
 }
 
 function cancelNodeEdit(callback: any) {
-    clearNodePopUp();
+    clearNodePopUp();3
     callback(null);
 }
 
