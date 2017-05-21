@@ -21,7 +21,6 @@ export class Topology {
                 return node;
             }
         }
-        
     }
 
     getEdgeById(id: string): Edge {
