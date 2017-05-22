@@ -7,7 +7,7 @@
       position: relative;
       width: 100%;
       padding: 50px 0px 0px 0px;
-      background-color: orangered;
+      background-color: black;
       font-weight: bold;
     }
     .nav-container {
@@ -21,8 +21,8 @@
     }
     .logo-container {
       float: left;
-      padding: 5px 5px;
-      background-color: blue;
+      padding: 10px 10px;
+      background-color: black;
       margin-left: 50px;
     }
     .logo {
@@ -38,8 +38,8 @@
       float: right;
       text-transform: uppercase;
       padding: 5px 5px;
-      background-color: blue;
-      margin-right: 50px;
+      background-color: transparent;
+      margin-right: 100px;
     }
     .menu {
       padding: 0px;
@@ -52,18 +52,21 @@
       float: right;
       list-style: none;
       text-align: center;
-      ;
     }
     .login-logout {
       text-decoration: none;
       color: white;
+      margin-left: 1400px;
+    }
+    .pull-right-lg {
+      float: right;
     }
     .main-container {
       position: relative;
       width: 100%;
       height: calc( 100vh - 50px);
       overflow: hidden;
-      background-color: orangered;
+      background-color: black;
     }
     .left-aside-container {
       position: relative;
@@ -99,13 +102,15 @@
       position: relative;
       height: 50%;
       width: 100%;
-      background-color: lightcyan;
+      padding: 5%;
+      background-color: #274156;
+      color: white; 
     }
     .topology-history-container,
     .calculation-container {
       height: 50%;
       width: 100%;
-      background-color: lightslategray;
+      background-color: black;
     }
   }
 
@@ -114,16 +119,16 @@
       position: relative;
       width: 100%;
       padding: 50px 0px 0px 0px;
-      background-color: orangered;
+      background-color: black;
       font-weight: bold;
     }
-    .nav-container {
+    .navbar {
       position: absolute;
       top: 0px;
       left: 0px;
       right: 0px;
       z-index: 999;
-      background-color: green;
+      background-color: black;
       font-size: 16px;
     }
     .logo-container {
@@ -144,7 +149,7 @@
       float: right;
       text-transform: uppercase;
       padding: 5px 5px;
-      background-color: blue;
+      background-color: black;
     }
     .menu {
       padding: 0px;
@@ -154,7 +159,7 @@
       text-align: center;
     }
     .login-logout-container {
-      float: left;
+      float: right;
       list-style: none;
       text-align: center;
     }
@@ -169,31 +174,34 @@
     height: auto;
     background: transparent;
     color: white;
-    top: 400px;
+    top: 200px;
     left: 20px;
     text-align: center;
     overflow: hidden;
-    padding-top: 0px;
+    padding-top: 5px;
     border: none;
+    font-weight: bold;
   }
 
   div.vis-network div.vis-edit-mode div.vis-button,
   div.vis-network div.vis-manipulation div.vis-button {
-    height: 60px;
+    height: 35px;
+    width: 130px;
     text-align: center;
-    padding: 10px 10px 10px 10px;
-    margin: 0px;
-    border-radius: 0px;
+    padding: 5px 5px 5px 5px;
+    border-radius: 10px;
     display: block;
-    background-color: #545051;
+    background-color: #274156;
     margin-bottom: 5px;
   }
 
   div.vis-network div.vis-manipulation div.vis-button.vis-add {
+    height: 35px;
+    width: 130px;
     background-image: none;
     box-sizing: content-box;
     display: block;
-    padding: 10px 57px 10px 57px
+    padding: 8px 20px 8px 20px;
   }
 
   div.vis-network div.vis-manipulation div.vis-button.vis-add:hover,
@@ -201,28 +209,34 @@
   div.vis-network div.vis-manipulation div.vis-button.vis-edit:hover,
   div.vis-network div.vis-manipulation div.vis-button.vis-delete:hover,
   div.vis-network div.vis-manipulation div.vis-button.vis-back:hover {
-    background-color: #f5c424;
+    background-color: #2d93ad;
   }
 
   div.vis-network div.vis-manipulation div.vis-button.vis-connect {
     background-image: none;
     box-sizing: content-box;
     display: block;
-    padding: 10px 57px 10px 58px;
+    padding: 8px 20px 8px 20px;
+    height: 35px;
+    width: 130px;
   }
 
   div.vis-network div.vis-manipulation div.vis-button.vis-edit {
     background-image: none;
     box-sizing: content-box;
     display: block;
-    padding: 10px 57px 10px 56px;
+    padding: 8px 20px 8px 20px;
+    height: 35px;
+    width: 130px;
   }
 
   div.vis-network div.vis-manipulation div.vis-button.vis-delete {
     background-image: none;
     box-sizing: content-box;
     display: block;
-    padding: 10px 31px 10px 31px;
+    padding: 8px 20px 8px 20px;
+    height: 35px;
+    width: 130px;
   }
 
   .vis-label {
@@ -239,8 +253,8 @@
   div.vis-network div.vis-edit-mode div.vis-label,
   div.vis-network div.vis-manipulation div.vis-label {
     margin: 0;
-    line-height: 60px;
-    font-size: 18px;
+    line-height: 35px;
+    font-size: 15px;
     border-radius: 0px;
     display: block;
   }
@@ -260,11 +274,11 @@
   }
 
   div.vis-network div.vis-manipulation div.vis-button.vis-back {
-    width: 200px;
     display: block;
+    height: 41px;
+    width: 160px;
+    line-height: 35px;
   }
-
-  
   /*  POPUP STYLE */
 
   table.legend_table {

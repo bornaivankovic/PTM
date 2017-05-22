@@ -96,10 +96,10 @@ function showNodeInformation(data:any){
     data.on("selectNode", function (params:any) {
         console.log(params);
         params.event = "[original event]";
-        document.getElementById('event-catcher').innerHTML = '<h2>Node parameters:</h2>' + '<p>Label: '+ params.nodes + '</p>' 
-                                                            +'<p>Edges:' + params.edges + '</p>'
-                                                            +'<p>Failure rate:' + params.failureRate + '</p>'
-                                                            +'<p>Repair rate:' + params.repairRate + '</p>' ;
+        document.getElementById('event-catcher').innerHTML = '<h2>Node parameters: </h2>' + '<p>Label: '+ params.nodes + '</p>' 
+                                                            +'<p>Edges: ' + params.edges + '</p>'
+                                                            +'<p>Failure rate: ' + params.failureRate + '</p>'
+                                                            +'<p>Repair rate: ' + params.repairRate + '</p>' ;
                                                             
     });
 }
@@ -107,7 +107,7 @@ function showNodeInformation(data:any){
 function showEdgeInformation(data:any){
     data.on("selectEdge", function (params:any) {
         params.event = "[original event]";
-        document.getElementById('event-catcher').innerHTML = '<h2>Edge parameters:</h2>' + '<p>Label: '+ params.edges + '</p>';
+        document.getElementById('event-catcher').innerHTML = '<h2>Edge parameters: </h2>' + '<p>Label: '+ params.edges + '</p>';
                                                             
     });
 }
