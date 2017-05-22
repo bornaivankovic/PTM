@@ -7,6 +7,7 @@ import json
 from heapq import *
 from abraham import abraham
 from math import exp
+from itertools import combinations
 
 def find_all_paths(graph, start, end, path=[]):
     path = path + [start]
@@ -64,11 +65,11 @@ class Graph:
     def node_by_name(self, name):
         for node in self.nodes:
             if node.label == name:
-                return name
+                return node
     
     def link_by_nodes(self,n1,n2):
         for i in self.links:
-            if (i.src.label==n1 and i.dest.label==n2) or (i.src.label==n2 and i.dest.label==n1):
+            if (i.src.label==n1.label and i.dest.label==n2.label) or (i.src.label==n2.label and i.dest.label==n1.label):
                 return i
 
     def graph_to_dict(self,distances=False):
@@ -105,7 +106,7 @@ class Graph:
             g[p1[i+1]].pop(p1[i])
         p2=dijkstra(g,n1.label,n2.label, [], {}, {})
         if p2 != None: p2.reverse()
-        return paths_to_json(p1, p2)
+        return (p1, p2)
 
     def to_json(self):
         ns="{\"nodes\":["
@@ -123,23 +124,14 @@ class Graph:
         bool_paths=[]
         bool_paths.append([x.label for x in self.links]+[x.label for x in self.nodes if x!=n1 and x!=n2])
         for i in paths:
-            l,n=[],[]
-            for j in self.nodes:
-                if j!=n1 and j!=n2 and j.label in i:
-                    n.append("1")
-                elif j==n1 or j==n2:
-                    pass
-                else:
-                    n.append("-")
-            tmp=[]
-            for j in range(len(i)-1):
-                tmp.append(self.link_by_nodes(i[j],i[j+1]))
-            for j in self.links:
+            tmp=self.nodes_links_from_path(i,n1,n2)
+            bp=[]
+            for j in [x for x in self.links]+[x for x in self.nodes if x!=n1 and x!=n2]:
                 if j in tmp:
-                    l.append("1")
+                    bp.append("1")
                 else:
-                    l.append("-")
-            bool_paths.append(l+n)
+                    bp.append("-")
+            bool_paths.append(bp)
         return bool_paths
 
     def find_failure_rate(self,s):
@@ -150,17 +142,84 @@ class Graph:
             if i.label==s:
                 return i.failureRate
 
-    def calculate_reliability(self,n1,n2,t):
-        a=self.ele_paths_to_bool(n1,n2)
-        b=abraham(a)
-        R=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
-        for i in b:
-            tmp=1
-            for j in range(len(i)):
-                if i[j]=="1":
-                    tmp*=exp(-self.find_failure_rate(a[0][j])*t)
-            R+=tmp
+    def nodes_links_from_path(self,path,n1,n2):
+        n,l=[],[]
+        for i in path:
+            n.append(self.node_by_name(i))
+        for i in range(len(n)-1):
+            l.append(self.link_by_nodes(n[i],n[i+1]))
+        if n1!=None and n2!=None:
+            n=[x for x in n if x!=n1 and x!=n2]
+        tmp=l+n
+        return tmp
+
+
+    def path_reliability(self,path,t):
+        R=1
+        for i in self.nodes_links_from_path(path,None,None):
+            R*=exp(-i.failureRate*t)
         return R
+
+
+    def calculate_reliability_dijkstra(self,n1,n2,t):
+        #razina para cvora
+        if n1!=None and n2!=None:
+            R=[]
+            path=self.ele_path_dijkstra(n1,n2)
+            for i in path:
+                if not not i:
+                    R.append(self.path_reliability(i,t))
+            return [(path,(min(R),sum(R)/len(R)))]
+        #razina mreze
+        else:
+            pairs=combinations(self.nodes,2)
+            R=[]
+            for i in pairs:
+                path=self.ele_path_dijkstra(i[0],i[1])
+                tmp=[]
+                for i in path:
+                    if not not i:
+                        tmp.append(self.path_reliability(i,t))
+                R.append((path,(min(tmp),sum(tmp)/len(tmp))))
+            return R
+
+    def calculate_reliability_arbitrary(self,paths,t):
+        R=0
+        for i in paths:
+           R+=self.path_reliability(i,t)
+        return R
+
+    def calculate_reliability_all_paths(self,n1,n2,t):
+        #razina para cvora
+        if n1!=None and n2!=None:
+            R=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
+            ele_paths=self.ele_paths_to_bool(n1,n2)
+            paths=abraham(ele_paths)
+            for i in paths:
+                tmp=1
+                for j in range(len(i)):
+                    if i[j]=="1":
+                        tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                    elif i[j]=="0":
+                        tmp*=1-exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                R+=tmp
+            return R
+        #razina mreze
+        else:
+            pairs=combinations(self.nodes,2)
+            for i in pairs:
+                R=exp(-i[0].failureRate*t)*exp(-i[1].failureRate*t)
+                ele_paths=self.ele_paths_to_bool(i[0],i[1])
+                paths=abraham(ele_paths)
+                for i in paths:
+                    tmp=1
+                    for j in range(len(i)):
+                        if i[j]=="1":
+                            tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                        elif i[j]=="0":
+                            tmp*=1-exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                    R+=tmp
+                return R
 
 
 nodes = [Node('a', 0.5, 0.7),
@@ -175,5 +234,5 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1],'e1'),
          Link(1, 0.4, 0.6, nodes[1], nodes[4],'e5'),
          Link(1, 0.4, 0.6, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
-print g.get_all_paths(nodes[0],nodes[4])
-print g.calculate_reliability(nodes[0],nodes[4],5)
+# print json.dumps(g.to_json()).replace("u'","'")
+# print g.calculate_reliability_dijkstra(None,None,5)
