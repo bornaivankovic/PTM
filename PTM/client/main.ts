@@ -85,7 +85,7 @@ function renderTopology() {
 function editNode(data: any, callback: any) {
     (<HTMLInputElement>document.getElementById('node-label')).value = data.label;
     document.getElementById('node-saveButton').onclick = saveNodeData.bind(this, data, callback);
-    document.getElementById('node-cancelButton').onclick = clearNodePopUp.bind(this);
+    document.getElementById('node-cancelButton').onclick = cancelNodeEdit.bind(this, callback);
     document.getElementById('node-popUp').style.display = 'block';
 }
 
@@ -96,7 +96,7 @@ function clearNodePopUp() {
 }
 
 function cancelNodeEdit(callback: any) {
-    clearNodePopUp(); 3
+    clearNodePopUp();
     callback(null);
 }
 

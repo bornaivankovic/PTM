@@ -34,6 +34,58 @@
             <div class="network-topology" id="network">
 
             </div>
+            <div id="node-popUp">
+                <span id="node-operation">node</span> <br>
+                <table style="margin:auto;">
+                    <tr>
+                        <td>Node id</td>
+                        <td><input id="node-id" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Node label</td>
+                        <td><input id="node-label" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Node failure rate</td>
+                        <td><input id="node-failureRate" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Node repair rate</td>
+                        <td><input id="node-repairRate" value="" /></td>
+                    </tr>
+                </table>
+                <input type="button" value="save" id="node-saveButton" />
+                <input type="button" value="cancel" id="node-cancelButton" />
+            </div>
+
+            <div id="edge-popUp">
+                <span id="edge-operation">edge</span> <br>
+                <table style="margin:auto;">
+                    <tr>
+                        <td>Label</td>
+                        <td><input id="edge-label" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Id</td>
+                        <td><input id="edge-id" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Length</td>
+                        <td><input id="edge-length" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Failure Rate</td>
+                        <td><input id="edge-failureRate" value="" /></td>
+                    </tr>
+                    <tr>
+                        <td>Repair Rate</td>
+                        <td><input id="edge-repairRate" value="" /></td>
+                    </tr>
+                </table>
+                <input type="button" value="save" id="edge-saveButton" />
+                <input type="button" value="cancel" id="edge-cancelButton" />
+            </div>
+
         </section>
         <aside class="right-aside-container">
             <div class="element-info-container">
@@ -44,9 +96,6 @@
             </div>
         </aside>
     </main>
-    <footer class="footer-container">
-
-    </footer>
 </body>
 <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
