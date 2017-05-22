@@ -80,6 +80,8 @@ function renderTopology() {
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
+    showNodeInformation(network);
+    
 }
 
 function editNode(data: any, callback: any) {
@@ -87,6 +89,17 @@ function editNode(data: any, callback: any) {
     document.getElementById('node-saveButton').onclick = saveNodeData.bind(this, data, callback);
     document.getElementById('node-cancelButton').onclick = cancelNodeEdit.bind(this, callback);
     document.getElementById('node-popUp').style.display = 'block';
+}
+
+function showNodeInformation(data:any){
+    data.on("selectNode", function (params:any) {
+        params.event = "[original event]";
+        document.getElementById('event-catcher').innerHTML = '<h2>Node parameters:</h2>' + '<p>Label: '+ params.nodes + '</p>' 
+                                                            +'<p>Edges:' + params.edges + '</p>'
+                                                            +'<p>Failure rate:' + params.failureRate + '</p>'
+                                                            +'<p>Repair rate:' + params.repairRate + '</p>' ;
+                                                            
+    });
 }
 
 function clearNodePopUp() {
