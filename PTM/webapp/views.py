@@ -6,7 +6,7 @@ import json
 import pickle
 from node import node_from_dict
 from link import link_from_dict
-from graph import Graph
+from graph import Graph,paths_to_json
 from link import Link
 
 def index(request):
@@ -41,8 +41,8 @@ def dijkstra(request):
             nodes.append(node_from_dict(i))
         for i in json.loads(request.body)["links"]:
             linksLabels.append(link_from_dict(i))
-        startLabel = json.loads(request.body)["start"]
-        endLabel = json.loads(request.body)["end"]
+        startLabel = json.loads(request.body).get("start")
+        endLabel = json.loads(request.body).get("end")
         d = {}
         for i in nodes:
             if i.label == startLabel:
@@ -55,13 +55,22 @@ def dijkstra(request):
         request.session["nodes"] = nodes
         request.session["links"] = links
         g = Graph(nodes, links)
-        path = g.ele_path_dijkstra(start, end)
-        s=json.dumps(path)
-        rel=g.calculate_reliability(start,end,json.loads(request.body)["t"])
+        t=json.loads(request.body)["t"]
+        if 'start' in locals():
+            rel=g.calculate_reliability_dijkstra(start,end,t)
+        else:
+            rel=g.calculate_reliability_dijkstra(None,None,t)
+
+        s="{\"result\":["
+        for i in rel:
+            p=i[0]
+            r=i[1]
+            s+="{\"pahts\":"+json.dumps(paths_to_json(p[0],p[1]))
+            s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"}},"
         s=s[:-1]
-        s+=",\"reliability\":"+str(rel)+"}"
-        respone=json.loads(s)
-        return JsonResponse(respone)
+        s+="]}"
+        response=json.loads(s)
+        return JsonResponse(response)
     else:
         nodes = request.session["nodes"]
         links = request.session["links"]
