@@ -8,6 +8,7 @@ declare var vis: any;
 let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
 let topology: Topology = new Topology();
+let isNodeSelected: boolean = false;
 
 
 
@@ -19,6 +20,7 @@ function renderTopology() {
 
     let testnode: Node = new Node("Node1", "1", 12, 34);
     let testnode2: Node = new Node("Node2", "2", 56, 78);
+
 
 
     nodes.push(testnode);
@@ -91,8 +93,7 @@ function renderTopology() {
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
-    showNodeInformation(network);
-    showEdgeInformation(network);
+    registerEvent(network);
 
 }
 
@@ -103,33 +104,26 @@ function editNode(data: any, callback: any) {
     document.getElementById('node-popUp').style.display = 'block';
 }
 
-function showNodeInformation(data: any) {
-    data.on("selectNode", function (params: any) {
-        let node: Node = topology.getNodeById(params.nodes['0']);
-        document.getElementById('event-catcher').innerHTML = '<h2>Node</h2>' + '<p><span>Label: </span>' + params.nodes + '</p>'
-            + '<p><span>Edges: </span>' + params.edges + '</p>'
-            + '<p><span>Failure rate: </span>' + node.getFailureRate() + '</p>'
-            + '<p><span>Repair rate: </span>' + node.getRepairRate() + '</p>';
-    });
-
-        data.on("deselectNode", function(params: any) {
-        document.getElementById('event-catcher').innerHTML = "";
-    });
-}
-
-function showEdgeInformation(data: any) {
-    data.on("selectEdge", function (params: any) {
-        let edge: Edge = topology.getEdgeById(params.edges['0']);
-        document.getElementById('event-catcher').innerHTML = '<h2>Edge</h2>' + '<p><span>Label: </span>' + params.edges + '</p>'
-            + '<p><span>Failure rate:</span> ' + edge.getFailureRate() + '</p>'
-            + '<p><span>Repair rate: </span>' + edge.getRepairRate() + '</p>';;
-
-    });
-
-    data.on("deselectEdge", function(params: any) {
-        document.getElementById('event-catcher').innerHTML = "";
+function registerEvent(data: any) {
+    data.on("select", function (params: any) {
+        console.log(params);
+        if (params.nodes.length == 0 && params.edges.length != 0) {
+            let edge: Edge = topology.getEdgeById(params.edges['0']);
+            document.getElementById('event-catcher').innerHTML = '<h2>Edge</h2>' + '<p><span>Label: </span>' + params.edges + '</p>'
+                + '<p><span>Failure rate:</span> ' + edge.getFailureRate() + '</p>'
+                + '<p><span>Repair rate: </span>' + edge.getRepairRate() + '</p>';
+        } else if(params.nodes.length > 0) {
+            let node: Node = topology.getNodeById(params.nodes['0']);
+            document.getElementById('event-catcher').innerHTML = '<h2>Node</h2>' + '<p><span>Label: </span>' + params.nodes + '</p>'
+                + '<p><span>Edges: </span>' + params.edges + '</p>'
+                + '<p><span>Failure rate: </span>' + node.getFailureRate() + '</p>'
+                + '<p><span>Repair rate: </span>' + node.getRepairRate() + '</p>';
+        } else if(params.nodes.length == 0 && params.edges.length == 0) {
+            document.getElementById('event-catcher').innerHTML = "";
+        }
     });
 }
+
 
 function clearNodePopUp() {
     document.getElementById('node-saveButton').onclick = null;
