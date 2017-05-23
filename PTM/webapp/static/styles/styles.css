@@ -1,9 +1,12 @@
  * {
-   font-family: 'Lato', sans-serif;
+font-family: 'Roboto', sans-serif;
  }
 
  body {
    margin: 0px;
+ }
+ nav {
+   background-color: #274156;
  }
 
  @media (min-width: 768px) {
@@ -324,6 +327,7 @@
    .network-manipulation-container,
    .element-info-container {
      position: relative;
+     border-radius: 10px;
      height: 50%;
      width: 100%;
      padding: 5%;
@@ -333,8 +337,9 @@
    .topology-history-container,
    .calculation-container {
      height: 50%;
+     border-radius: 10px;
      width: 100%;
-     background-color: black;
+     background-color: #274156;
    }
  }
 
@@ -352,7 +357,7 @@
      left: 0px;
      right: 0px;
      z-index: 999;
-     background-color: black;
+     background-color: #274156;
      font-size: 16px;
    }
    .logo-container {
@@ -571,13 +576,12 @@
  }
 
  #event-catcher {
-   background-color: #242424;
+   background-color: #274156;
    color: white;
  }
 
  #event-catcher h2,
  .calculation-container h2 {
-   font-family: 'Lato', sans-serif;
    font-size: 40px;
    font-weight: 900;
    margin-top: 0px;
@@ -596,13 +600,11 @@
 
  #event-catcher p {
    padding-left: 30px;
-   font-family: 'Lato', sans-serif;
    font-size: 20px;
    font-weight: 700;
  }
 
  #event-catcher p span {
-   font-family: 'Lato', sans-serif;
    font-size: 25px;
    font-weight: 900;
  }

@@ -235,4 +235,3 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1],'e1'),
          Link(1, 0.4, 0.6, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-# print g.calculate_reliability_dijkstra(None,None,5)
