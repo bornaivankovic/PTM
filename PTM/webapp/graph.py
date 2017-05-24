@@ -236,3 +236,38 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1],'e1'),
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
 # print g.calculate_reliability_dijkstra(None,None,5)
+
+# nodes=[Node('gdansk',1,1),  #0
+# Node('bydgoszcz',1,1),     #1
+# Node('bialystok',1,1),      #2
+# Node('poznan',1,1),         #3
+# Node('warsaw',1,1),         #4
+# Node('wroclaw',1,1),        #5
+# Node('lodz',1,1),           #6
+# Node('katowice',1,1),       #7
+# Node('krakow',1,1),         #8
+# Node('rzeszow',1,1)]        #9
+
+# links=[Link(284,1,1,nodes[0],nodes[4],'gdansk-warsaw'),
+# Link(328,1,1,nodes[0],nodes[2],'gdansk-bialystok'),
+# Link(143,1,1,nodes[0],nodes[1],'gdansk-bydgoszcz'),
+# Link(108,1,1,nodes[3],nodes[1],'poznan-bydgoszcz'),
+# Link(225,1,1,nodes[1],nodes[4],'bydgoszcz-warsaw'),
+# Link(145,1,1,nodes[3],nodes[5],'poznan-wroclaw'),
+# Link(182,1,1,nodes[5],nodes[6],'wroclaw-lodz'),
+# Link(119,1,1,nodes[6],nodes[4],'lodz-warsaw'),
+# Link(176,1,1,nodes[4],nodes[2],'warsaw-bialystok'),
+# Link(168,1,1,nodes[5],nodes[7],'wroclaw-katowice'),
+# Link(169,1,1,nodes[6],nodes[7],'lodz-katowice'),
+# Link(253,1,1,nodes[4],nodes[8],'warsaw-krakow'),
+# Link(353,1,1,nodes[2],nodes[9],'bialystok-rzeszow'),
+# Link(70,1,1,nodes[7],nodes[8],'katowice-krakow'),
+# Link(147,1,1,nodes[8],nodes[9],'krakow-rzeszow')]
+
+# g=Graph(nodes,links)
+# print nodes[5],"-",nodes[2],":",g.ele_path_dijkstra(nodes[5],nodes[2])
+# print nodes[0],"-",nodes[5],":",g.ele_path_dijkstra(nodes[0],nodes[5])
+# print nodes[0],"-",nodes[9],":",g.ele_path_dijkstra(nodes[0],nodes[9])
+# #wroclaw - bialystok : (['wroclaw', 'lodz', 'warsaw', 'bialystok'], ['wroclaw', 'poznan','bydgoszcz', 'gdansk', 'bialystok'])
+# #gdansk - wroclaw : (['gdansk', 'bydgoszcz', 'poznan', 'wroclaw'], ['gdansk', 'warsaw', 'lodz', 'wroclaw'])
+# #gdansk - rzeszow : (['gdansk', 'bialystok', 'rzeszow'], ['gdansk', 'warsaw', 'krakow', 'rzeszow'])
