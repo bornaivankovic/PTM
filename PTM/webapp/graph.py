@@ -235,6 +235,7 @@ links = [Link(4, 0.4, 0.6, nodes[0], nodes[1],'e1'),
          Link(1, 0.4, 0.6, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
+<<<<<<< HEAD
 # print g.calculate_reliability_dijkstra(None,None,5)
 
 # nodes=[Node('gdansk',1,1),  #0
@@ -271,3 +272,5 @@ g = Graph(nodes, links)
 # #wroclaw - bialystok : (['wroclaw', 'lodz', 'warsaw', 'bialystok'], ['wroclaw', 'poznan','bydgoszcz', 'gdansk', 'bialystok'])
 # #gdansk - wroclaw : (['gdansk', 'bydgoszcz', 'poznan', 'wroclaw'], ['gdansk', 'warsaw', 'lodz', 'wroclaw'])
 # #gdansk - rzeszow : (['gdansk', 'bialystok', 'rzeszow'], ['gdansk', 'warsaw', 'krakow', 'rzeszow'])
+=======
+>>>>>>> f7fcbb2a6dd1ea15407e2f9fab62d9b2a0c01fec

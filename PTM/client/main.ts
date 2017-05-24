@@ -8,6 +8,7 @@ declare var vis: any;
 let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
 let topology: Topology = new Topology();
+let isNodeSelected: boolean = false;
 
 
 
@@ -17,14 +18,13 @@ function renderTopology() {
 
     var ajaxRequest: AjaxController = new AjaxController();
 
-    let testnode: Node = new Node("patak", "borna", 12, 34);
-    let testnode2: Node = new Node("patka", "vedran", 56, 78);
+    let testnode: Node = new Node("Node1", "1", 12, 34);
+    let testnode2: Node = new Node("Node2", "2", 56, 78);
 
-    let testedge: Edge = new Edge("istinska ljubav", "tajnaveza", "patak", "patka", 1, 2, 3);
+
 
     nodes.push(testnode);
     nodes.push(testnode2);
-    edges.push(testedge);
 
     let visnodes = new vis.DataSet(nodes);
     let visedges = new vis.DataSet(edges);
@@ -41,6 +41,19 @@ function renderTopology() {
     ajaxRequest.sendTopology(topology);
 
     var options = {
+        nodes: {
+            shape: 'dot',
+            size: 30,
+            color: {
+
+            },
+            physics: false
+        },
+        edges: {
+            physics: false,
+            width: 2,
+            length: 10
+        },
         layout: {
             randomSeed: 2
         },
@@ -80,9 +93,8 @@ function renderTopology() {
 
     // initialize your network!
     var network = new vis.Network(container, data, options);
-    showNodeInformation(network);
-    showEdgeInformation(network);
-    
+    registerEvent(network);
+
 }
 
 function editNode(data: any, callback: any) {
@@ -92,25 +104,26 @@ function editNode(data: any, callback: any) {
     document.getElementById('node-popUp').style.display = 'block';
 }
 
-function showNodeInformation(data:any){
-    data.on("selectNode", function (params:any) {
+function registerEvent(data: any) {
+    data.on("select", function (params: any) {
         console.log(params);
-        params.event = "[original event]";
-        document.getElementById('event-catcher').innerHTML = '<h2>Node parameters:</h2>' + '<p>Label: '+ params.nodes + '</p>' 
-                                                            +'<p>Edges:' + params.edges + '</p>'
-                                                            +'<p>Failure rate:' + params.failureRate + '</p>'
-                                                            +'<p>Repair rate:' + params.repairRate + '</p>' ;
-                                                            
+        if (params.nodes.length == 0 && params.edges.length != 0) {
+            let edge: Edge = topology.getEdgeById(params.edges['0']);
+            document.getElementById('event-catcher').innerHTML = '<h2>Edge</h2>' + '<p><span>Label: </span>' + params.edges + '</p>'
+                + '<p><span>Failure rate:</span> ' + edge.getFailureRate() + '</p>'
+                + '<p><span>Repair rate: </span>' + edge.getRepairRate() + '</p>';
+        } else if(params.nodes.length > 0) {
+            let node: Node = topology.getNodeById(params.nodes['0']);
+            document.getElementById('event-catcher').innerHTML = '<h2>Node</h2>' + '<p><span>Label: </span>' + params.nodes + '</p>'
+                + '<p><span>Edges: </span>' + params.edges + '</p>'
+                + '<p><span>Failure rate: </span>' + node.getFailureRate() + '</p>'
+                + '<p><span>Repair rate: </span>' + node.getRepairRate() + '</p>';
+        } else if(params.nodes.length == 0 && params.edges.length == 0) {
+            document.getElementById('event-catcher').innerHTML = "";
+        }
     });
 }
 
-function showEdgeInformation(data:any){
-    data.on("selectEdge", function (params:any) {
-        params.event = "[original event]";
-        document.getElementById('event-catcher').innerHTML = '<h2>Edge parameters:</h2>' + '<p>Label: '+ params.edges + '</p>';
-                                                            
-    });
-}
 
 function clearNodePopUp() {
     document.getElementById('node-saveButton').onclick = null;

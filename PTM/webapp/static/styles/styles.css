@@ -1,328 +1,610 @@
-  body {
-    margin: 0px;
-  }
+ * {
+font-family: 'Roboto', sans-serif;
+ }
 
-  @media (min-width: 768px) {
-    .header-container {
-      position: relative;
-      width: 100%;
-      padding: 50px 0px 0px 0px;
-      background-color: orangered;
-      font-weight: bold;
-    }
-    .nav-container {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      z-index: 999;
-      background-color: green;
-      font-size: 16px;
-    }
-    .logo-container {
-      float: left;
-      padding: 5px 5px;
-      background-color: blue;
-      margin-left: 50px;
-    }
-    .logo {
-      text-align: center;
-      line-height: 40px;
-      text-decoration: none;
-      height: 40px;
-      width: 80px;
-      display: block;
-      color: white;
-    }
-    .link-container {
-      float: right;
-      text-transform: uppercase;
-      padding: 5px 5px;
-      background-color: blue;
-      margin-right: 50px;
-    }
-    .menu {
-      padding: 0px;
-      margin: 0px;
-      display: table;
-      line-height: 40px;
-      text-align: center;
-    }
-    .login-logout-container {
-      float: right;
-      list-style: none;
-      text-align: center;
-      ;
-    }
-    .login-logout {
-      text-decoration: none;
-      color: white;
-    }
-    .main-container {
-      position: relative;
-      width: 100%;
-      height: calc( 100vh - 50px);
-      overflow: hidden;
-      background-color: orangered;
-    }
-    .left-aside-container {
-      position: relative;
-      height: 95%;
-      width: 15%;
-      min-width: 100px;
-      background-color: black;
-      float: left;
-    }
-    .network-container {
-      height: 95%;
-      width: 85%;
-      min-width: 150px;
-      background-color: white;
-      float: left;
-      background-image: linear-gradient(rgba(36, 36, 36, .1) 2px, transparent 2px), linear-gradient(90deg, rgba(36, 36, 36, .1) 2px, transparent 2px), linear-gradient(rgba(36, 36, 36, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(36, 36, 36, .1) 1px, transparent 1px);
-      background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
-      background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px
-    }
-    #network {
-      height: 100%;
-      width: 100%;
-    }
-    .right-aside-container {
-      height: 95%;
-      width: 15%;
-      min-width: 100px;
-      background-color: black;
-      float: right;
-    }
-    .network-manipulation-container,
-    .element-info-container {
-      position: relative;
-      height: 50%;
-      width: 100%;
-      background-color: lightcyan;
-    }
-    .topology-history-container,
-    .calculation-container {
-      height: 50%;
-      width: 100%;
-      background-color: lightslategray;
-    }
-  }
+ body {
+   margin: 0px;
+ }
+ nav {
+   background-color: #274156;
+ }
 
-  @media (max-width: 768px) {
-    .header-container {
-      position: relative;
-      width: 100%;
-      padding: 50px 0px 0px 0px;
-      background-color: orangered;
-      font-weight: bold;
-    }
-    .nav-container {
-      position: absolute;
-      top: 0px;
-      left: 0px;
-      right: 0px;
-      z-index: 999;
-      background-color: green;
-      font-size: 16px;
-    }
-    .logo-container {
-      float: left;
-      padding: 5px 5px;
-      background-color: blue;
-    }
-    .logo {
-      text-align: center;
-      line-height: 40px;
-      text-decoration: none;
-      height: 40px;
-      width: 80px;
-      display: block;
-      color: white;
-    }
-    .link-container {
-      float: right;
-      text-transform: uppercase;
-      padding: 5px 5px;
-      background-color: blue;
-    }
-    .menu {
-      padding: 0px;
-      margin: 0px;
-      display: table;
-      line-height: 40px;
-      text-align: center;
-    }
-    .login-logout-container {
-      float: left;
-      list-style: none;
-      text-align: center;
-    }
-    .login-logout {
-      text-decoration: none;
-      color: white;
-    }
-  }
+ @media (min-width: 768px) {
+   .header-container {
+     position: relative;
+     width: 100%;
+     padding: 100px 0px 0px 0px;
+     background-color: orangered;
+     font-weight: bold;
+   }
+   .nav-container {
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     right: 0px;
+     z-index: 999;
+     background-color: #242424;
+     font-size: 16px;
+   }
+   .logo-container {
+     border-radius: 200px;
+     float: left;
+     padding: 5px 5px;
+     background-color: white;
+     margin-left: 50px;
+   }
+   .logo {
+     text-align: center;
+     line-height: 90px;
+     text-decoration: none;
+     height: 90px;
+     width: 160px;
+     display: block;
+     color: #242424;
+   }
+   .link-container {
+     border-radius: 200px;
+     text-align: center;
+     float: right;
+     text-transform: uppercase;
+     padding: 5px 5px;
+     background-color: white;
+     margin-right: 50px;
+   }
+   .menu {
+     padding: 0px;
+     margin: 0px;
+     width: 160px;
+     display: table;
+     line-height: 90px;
+     text-align: center;
+   }
+   .login-logout-container {
+     list-style: none;
+     text-align: center;
+   }
+   .login-logout {
+     text-decoration: none;
+     color: #242424;
+   }
+   .main-container {
+     position: relative;
+     width: 100%;
+     height: calc( 100vh - 100px);
+     overflow: hidden;
+   }
+   .left-aside-container {
+     position: relative;
+     height: 95%;
+     width: 15%;
+     min-width: 100px;
+     background-color: black;
+     float: left;
+   }
+   .network-container {
+     height: 100%;
+     width: 100%;
+     min-width: 150px;
+     float: left;
+     background-image: linear-gradient(rgba(36, 36, 36, .1) 2px, transparent 2px), linear-gradient(90deg, rgba(36, 36, 36, .1) 2px, transparent 2px), linear-gradient(rgba(36, 36, 36, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(36, 36, 36, .1) 1px, transparent 1px);
+     background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+     background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px
+   }
+   #network {
+     height: 100%;
+     width: 100%;
+   }
+   .right-aside-container {
+     position: absolute;
+     height: 90%;
+     width: 15%;
+     min-width: 100px;
+     background-color: transparent;
+     right: 30px;
+     top: 5%;
+   }
+   .network-manipulation-container,
+   .element-info-container {
+     border-radius: 100px;
+     position: relative;
+     height: 45%;
+     width: 100%;
+     background-color: lightcyan;
+     margin-bottom: 20%;
+   }
+   .topology-history-container,
+   .calculation-container {
+     border-radius: 100px;
+     height: 45%;
+     width: 100%;
+     background-color: #242424;
+   }
+ }
 
-  div.vis-network div.vis-manipulation {
-    width: 200px;
-    height: auto;
-    background: transparent;
-    color: white;
-    top: 400px;
-    left: 20px;
-    text-align: center;
-    overflow: hidden;
-    padding-top: 0px;
-    border: none;
-  }
+ @media (max-width: 768px) {
+   .header-container {
+     position: relative;
+     width: 100%;
+     padding: 100px 0px 0px 0px;
+     background-color: orangered;
+     font-weight: bold;
+   }
+   .nav-container {
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     right: 0px;
+     z-index: 999;
+     background-color: green;
+     font-size: 16px;
+   }
+   .logo-container {
+     float: left;
+     padding: 5px 5px;
+     background-color: blue;
+   }
+   .logo {
+     text-align: center;
+     line-height: 40px;
+     text-decoration: none;
+     height: 40px;
+     width: 80px;
+     display: block;
+     color: white;
+   }
+   .link-container {
+     float: right;
+     text-transform: uppercase;
+     padding: 5px 5px;
+     background-color: blue;
+   }
+   .menu {
+     padding: 0px;
+     margin: 0px;
+     display: table;
+     line-height: 40px;
+     text-align: center;
+   }
+   .login-logout-container {
+     float: left;
+     list-style: none;
+     text-align: center;
+   }
+   .login-logout {
+     text-decoration: none;
+     color: white;
+   }
+ }
 
-  div.vis-network div.vis-edit-mode div.vis-button,
-  div.vis-network div.vis-manipulation div.vis-button {
-    height: 60px;
-    text-align: center;
-    padding: 10px 10px 10px 10px;
-    margin: 0px;
-    border-radius: 0px;
-    display: block;
-    background-color: #545051;
-    margin-bottom: 5px;
-  }
+ div.vis-network div.vis-manipulation {
+   width: 200px;
+   height: auto;
+   background: transparent;
+   color: white;
+   top: 400px;
+   left: 20px;
+   text-align: center;
+   overflow: hidden;
+   padding-top: 0px;
+   border: none;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-add {
-    background-image: none;
-    box-sizing: content-box;
-    display: block;
-    padding: 10px 57px 10px 57px
-  }
+ div.vis-network div.vis-edit-mode div.vis-button,
+ div.vis-network div.vis-manipulation div.vis-button {
+   height: 60px;
+   text-align: center;
+   padding: 10px 10px 10px 10px;
+   margin: 0px;
+   border-radius: 0px;
+   display: block;
+   background-color: #242424;
+   margin-bottom: 5px;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-add:hover,
-  div.vis-network div.vis-manipulation div.vis-button.vis-connect:hover,
-  div.vis-network div.vis-manipulation div.vis-button.vis-edit:hover,
-  div.vis-network div.vis-manipulation div.vis-button.vis-delete:hover,
-  div.vis-network div.vis-manipulation div.vis-button.vis-back:hover {
-    background-color: #f5c424;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-add {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 10px 57px 10px 57px
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-connect {
-    background-image: none;
-    box-sizing: content-box;
-    display: block;
-    padding: 10px 57px 10px 58px;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-add:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-connect:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-edit:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-delete:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-back:hover {
+   background-color: #f5c424;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-edit {
-    background-image: none;
-    box-sizing: content-box;
-    display: block;
-    padding: 10px 57px 10px 56px;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-connect {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 10px 57px 10px 58px;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-delete {
-    background-image: none;
-    box-sizing: content-box;
-    display: block;
-    padding: 10px 31px 10px 31px;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-edit {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 10px 57px 10px 56px;
+ }
 
-  .vis-label {
-    width: 100%;
-    text-align: center;
-  }
+ @media (min-width: 768px) {
+   .header-container {
+     position: relative;
+     width: 100%;
+     padding: 50px 0px 0px 0px;
+     background-color: black;
+     font-weight: bold;
+   }
+   .nav-container {
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     right: 0px;
+     z-index: 999;
+     background-color: green;
+     font-size: 16px;
+   }
+   .logo-container {
+     float: left;
+     padding: 10px 10px;
+     background-color: black;
+     margin-left: 50px;
+   }
+   .logo {
+     text-align: center;
+     line-height: 40px;
+     text-decoration: none;
+     height: 40px;
+     width: 80px;
+     display: block;
+     color: white;
+   }
+   .link-container {
+     float: right;
+     text-transform: uppercase;
+     padding: 5px 5px;
+     background-color: transparent;
+     margin-right: 100px;
+   }
+   .menu {
+     padding: 0px;
+     margin: 0px;
+     display: table;
+     line-height: 40px;
+     text-align: center;
+   }
+   .login-logout-container {
+     float: right;
+     list-style: none;
+     text-align: center;
+   }
+   .login-logout {
+     text-decoration: none;
+     color: white;
+     margin-left: 1400px;
+   }
+   .pull-right-lg {
+     float: right;
+   }
+   .main-container {
+     position: relative;
+     width: 100%;
+     height: calc( 100vh - 56px);
+     overflow: hidden;
+   }
+   .left-aside-container {
+     position: relative;
+     height: 95%;
+     width: 15%;
+     min-width: 100px;
+     background-color: black;
+     float: left;
+   }
+   .network-container {
+     height: 100%;
+     width: 100%;
+     min-width: 150px;
+     background-color: white;
+     float: left;
+     background-image: linear-gradient(rgba(36, 36, 36, .1) 2px, transparent 2px), linear-gradient(90deg, rgba(36, 36, 36, .1) 2px, transparent 2px), linear-gradient(rgba(36, 36, 36, .1) 1px, transparent 1px), linear-gradient(90deg, rgba(36, 36, 36, .1) 1px, transparent 1px);
+     background-size: 100px 100px, 100px 100px, 20px 20px, 20px 20px;
+     background-position: -2px -2px, -2px -2px, -1px -1px, -1px -1px
+   }
+   #network {
+     height: 100%;
+     width: 100%;
+   }
+   .right-aside-container {
+     height: 80%;
+     width: 15%;
+     min-width: 100px;
+     background-color: transparent;
+     float: right;
+   }
+   .network-manipulation-container,
+   .element-info-container {
+     position: relative;
+     border-radius: 10px;
+     height: 50%;
+     width: 100%;
+     padding: 5%;
+     background-color: #274156;
+     color: white;
+   }
+   .topology-history-container,
+   .calculation-container {
+     height: 50%;
+     border-radius: 10px;
+     width: 100%;
+     background-color: #274156;
+   }
+ }
 
-  .vis-button {
-    background-image: none;
-    box-sizing: content-box;
-    display: block;
-  }
+ @media (max-width: 768px) {
+   .header-container {
+     position: relative;
+     width: 100%;
+     padding: 50px 0px 0px 0px;
+     background-color: black;
+     font-weight: bold;
+   }
+   .navbar {
+     position: absolute;
+     top: 0px;
+     left: 0px;
+     right: 0px;
+     z-index: 999;
+     background-color: #274156;
+     font-size: 16px;
+   }
+   .logo-container {
+     float: left;
+     padding: 5px 5px;
+     background-color: blue;
+   }
+   .logo {
+     text-align: center;
+     line-height: 40px;
+     text-decoration: none;
+     height: 40px;
+     width: 80px;
+     display: block;
+     color: white;
+   }
+   .link-container {
+     float: right;
+     text-transform: uppercase;
+     padding: 5px 5px;
+     background-color: black;
+   }
+   .menu {
+     padding: 0px;
+     margin: 0px;
+     display: table;
+     line-height: 40px;
+     text-align: center;
+   }
+   .login-logout-container {
+     float: right;
+     list-style: none;
+     text-align: center;
+   }
+   .login-logout {
+     text-decoration: none;
+     color: white;
+   }
+ }
 
-  div.vis-network div.vis-edit-mode div.vis-label,
-  div.vis-network div.vis-manipulation div.vis-label {
-    margin: 0;
-    line-height: 60px;
-    font-size: 18px;
-    border-radius: 0px;
-    display: block;
-  }
+ div.vis-network div.vis-manipulation {
+   width: 200px;
+   height: auto;
+   background: transparent;
+   color: white;
+   top: 200px;
+   left: 20px;
+   text-align: center;
+   overflow: hidden;
+   padding-top: 5px;
+   border: none;
+   font-weight: bold;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-separator-line {
-    height: 80px;
-    display: block;
-    margin: 0px;
-    visibility: hidden;
-    position: absolute;
-  }
+ div.vis-network div.vis-edit-mode div.vis-button,
+ div.vis-network div.vis-manipulation div.vis-button {
+   height: 35px;
+   width: 130px;
+   text-align: center;
+   padding: 5px 5px 5px 5px;
+   border-radius: 10px;
+   display: block;
+   background-color: #274156;
+   margin-bottom: 5px;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-none {
-    padding: 10px;
-    display: block;
-    visibility: hidden;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-add {
+   height: 35px;
+   width: 130px;
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 8px 20px 8px 20px;
+ }
 
-  div.vis-network div.vis-manipulation div.vis-button.vis-back {
-    width: 200px;
-    display: block;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-add:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-connect:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-edit:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-delete:hover,
+ div.vis-network div.vis-manipulation div.vis-button.vis-back:hover {
+   background-color: #2d93ad;
+ }
 
-  
-  /*  POPUP STYLE */
+ div.vis-network div.vis-manipulation div.vis-button.vis-connect {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 8px 20px 8px 20px;
+   height: 35px;
+   width: 130px;
+ }
 
-  table.legend_table {
-    font-size: 11px;
-    border-width: 1px;
-    border-color: #d3d3d3;
-    border-style: solid;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-edit {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 8px 20px 8px 20px;
+   height: 35px;
+   width: 130px;
+ }
 
-  table.legend_table,
-  td {
-    border-width: 1px;
-    border-color: #d3d3d3;
-    border-style: solid;
-    padding: 2px;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-delete {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+   padding: 8px 20px 8px 20px;
+   height: 35px;
+   width: 130px;
+ }
 
-  div.table_content {
-    width: 80px;
-    text-align: center;
-  }
+ .vis-label {
+   width: 100%;
+   text-align: center;
+ }
 
-  div.table_description {
-    width: 100px;
-  }
+ .vis-button {
+   background-image: none;
+   box-sizing: content-box;
+   display: block;
+ }
 
-  #operation {
-    font-size: 28px;
-  }
+ div.vis-network div.vis-edit-mode div.vis-label,
+ div.vis-network div.vis-manipulation div.vis-label {
+   margin: 0;
+   line-height: 35px;
+   font-size: 15px;
+   border-radius: 0px;
+   display: block;
+ }
 
-  #node-popUp {
-    display: none;
-    position: absolute;
-    top: 350px;
-    left: 30%;
-    z-index: 299;
-    width: 400px;
-    height: 200px;
-    background-color: #f9f9f9;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #5394ed;
-    padding: 10px;
-    text-align: center;
-  }
+ div.vis-network div.vis-manipulation div.vis-separator-line {
+   height: 80px;
+   display: block;
+   margin: 0px;
+   visibility: hidden;
+   position: absolute;
+ }
 
-  #edge-popUp {
-    display: none;
-    position: absolute;
-    top: 350px;
-    left: 30%;
-    z-index: 299;
-    width: 400px;
-    height: 250px;
-    background-color: #f9f9f9;
-    border-style: solid;
-    border-width: 3px;
-    border-color: #5394ed;
-    padding: 10px;
-    text-align: center;
-  }
+ div.vis-network div.vis-manipulation div.vis-button.vis-none {
+   padding: 10px;
+   display: block;
+   visibility: hidden;
+ }
+
+ div.vis-network div.vis-manipulation div.vis-button.vis-back {
+   width: 200px;
+   display: block;
+ }
+ /*  POPUP STYLE */
+
+ div.vis-network div.vis-manipulation div.vis-button.vis-back {
+   display: block;
+   height: 41px;
+   width: 160px;
+   line-height: 35px;
+ }
+
+ table.legend_table {
+   font-size: 11px;
+   border-width: 1px;
+   border-color: #d3d3d3;
+   border-style: solid;
+ }
+
+ table.legend_table,
+ td {
+   border-width: 1px;
+   border-color: #d3d3d3;
+   border-style: solid;
+   padding: 2px;
+ }
+
+ div.table_content {
+   width: 80px;
+   text-align: center;
+ }
+
+ div.table_description {
+   width: 100px;
+ }
+
+ #operation {
+   font-size: 28px;
+ }
+
+ #node-popUp {
+   display: none;
+   position: absolute;
+   top: 350px;
+   left: 30%;
+   z-index: 299;
+   width: 400px;
+   height: 200px;
+   background-color: #f9f9f9;
+   border-style: solid;
+   border-width: 3px;
+   border-color: #5394ed;
+   padding: 10px;
+   text-align: center;
+ }
+
+ #edge-popUp {
+   display: none;
+   position: absolute;
+   top: 350px;
+   left: 30%;
+   z-index: 299;
+   width: 400px;
+   height: 250px;
+   background-color: #f9f9f9;
+   border-style: solid;
+   border-width: 3px;
+   border-color: #5394ed;
+   padding: 10px;
+   text-align: center;
+ }
+
+ #event-catcher {
+   background-color: #274156;
+   color: white;
+ }
+
+ #event-catcher h2,
+ .calculation-container h2 {
+   font-size: 40px;
+   font-weight: 900;
+   margin-top: 0px;
+   text-align: center;
+   padding-top: 10px;
+   color: white;
+ }
+
+ .calculation-container h2 {
+   line-height: 400px;
+ }
+
+ #event-catcher p:first-of-type {
+   margin-top: 40px;
+ }
+
+ #event-catcher p {
+   padding-left: 30px;
+   font-size: 20px;
+   font-weight: 700;
+ }
+
+ #event-catcher p span {
+   font-size: 25px;
+   font-weight: 900;
+ }
