@@ -192,9 +192,9 @@ class Graph:
     def calculate_reliability_all_paths(self,n1,n2,t):
         #razina para cvora
         if n1!=None and n2!=None:
-            R=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
             ele_paths=self.ele_paths_to_bool(n1,n2)
             paths=abraham(ele_paths)
+            R=0
             for i in paths:
                 tmp=1
                 for j in range(len(i)):
@@ -203,39 +203,43 @@ class Graph:
                     elif i[j]=="0":
                         tmp*=1-exp(-self.find_failure_rate(ele_paths[0][j])*t)
                 R+=tmp
+            R*=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
             return R
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
+            rel=[]
             for i in pairs:
-                R=exp(-i[0].failureRate*t)*exp(-i[1].failureRate*t)
                 ele_paths=self.ele_paths_to_bool(i[0],i[1])
                 paths=abraham(ele_paths)
-                for i in paths:
+                R=0
+                for j in paths:
                     tmp=1
-                    for j in range(len(i)):
-                        if i[j]=="1":
-                            tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t)
-                        elif i[j]=="0":
-                            tmp*=1-exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                    for k in range(len(j)):
+                        if j[k]=="1":
+                            tmp*=exp(-self.find_failure_rate(ele_paths[0][k])*t)
+                        elif j[k]=="0":
+                            tmp*=1-exp(-self.find_failure_rate(ele_paths[0][k])*t)
                     R+=tmp
-                return R
+                R*=exp(-i[0].failureRate*t)*exp(-i[1].failureRate*t)
+                rel.append(R)
+            return(min(rel),sum(rel)/len(rel))
 
 
-nodes = [Node('a', 0.5, 0.7),
-         Node('b', 0.4, 0.7),
-         Node('c', 0.6, 0.7),
-         Node('d', 0.4, 0.8),
-         Node('e', 0.3, 0.8)]
-links = [Link(4, 0.4, 0.6, nodes[0], nodes[1],'e1'),
-         Link(1, 0.4, 0.6, nodes[0], nodes[2],'e2'),
-         Link(2, 0.4, 0.6, nodes[1], nodes[3],'e3'),
-         Link(2, 0.4, 0.6, nodes[2], nodes[3],'e4'),
-         Link(1, 0.4, 0.6, nodes[1], nodes[4],'e5'),
-         Link(1, 0.4, 0.6, nodes[3], nodes[4],'e6')]
+nodes = [Node('a', 2000*1e-9, 0.7),
+         Node('b', 2000*1e-9, 0.7),
+         Node('c', 2000*1e-9, 0.7),
+         Node('d', 2000*1e-9, 0.8),
+         Node('e', 2000*1e-9, 0.8)]
+links = [Link(4, 2000*1e-9, 0.6, nodes[0], nodes[1],'e1'),
+         Link(1, 2000*1e-9, 0.6, nodes[0], nodes[2],'e2'),
+         Link(2, 2000*1e-9, 0.6, nodes[1], nodes[3],'e3'),
+         Link(2, 2000*1e-9, 0.6, nodes[2], nodes[3],'e4'),
+         Link(1, 2000*1e-9, 0.6, nodes[1], nodes[4],'e5'),
+         Link(1, 2000*1e-9, 0.6, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-# print g.calculate_reliability_dijkstra(None,None,5)
+print g.calculate_reliability_all_paths(None,None,17520)
 
 # nodes=[Node('gdansk',1,1),  #0
 # Node('bydgoszcz',1,1),     #1

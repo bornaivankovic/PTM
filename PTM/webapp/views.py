@@ -1,7 +1,10 @@
 from django.shortcuts import render
 from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
+from django.contrib.auth.decorators import login_required
 from django.template import loader
+from django.contrib.auth.models import User
+from django.contrib.auth import login, authenticate,logout
 import json
 import pickle
 from node import node_from_dict
@@ -14,23 +17,22 @@ def index(request):
     context = {}
     return HttpResponse(template.render(context, request))
 
-@csrf_exempt
-def topo(request):
-    if request.method == 'POST':
-        nodes=[]
-        links=[]
-        for i in json.loads(request.body)["nodes"]:
-            nodes.append(node_from_dict(i))
-        for i in json.loads(request.body)["links"]:
-            links.append(link_from_dict(i))
-        request.session["nodes"]=nodes
-        request.session["links"]=links
-        nodes=request.session["nodes"]
-        links=request.session["links"]
-        graph=Graph(nodes,links)
-        return JsonResponse(graph.to_json())       
-    return HttpResponse("OK")
+def error(request):
+    return HttpResponse(status=401)
 
+
+@csrf_exempt
+def signup(request):
+    if request.method == 'POST':
+        username = json.loads(request.body).get('username')
+        raw_password = json.loads(request.body).get('password')
+        user = authenticate(username=username, password=raw_password)
+        if user is None:
+            user=User.objects.create_user(username=username,password=raw_password)
+        login(request, user)
+        return HttpResponse("OK")
+
+# @login_required(login_url='error')
 @csrf_exempt
 def dijkstra(request):
     if request.method == 'POST':
@@ -76,6 +78,8 @@ def dijkstra(request):
         links = request.session["links"]
         g = Graph(nodes, links)
         return JsonResponse(g.to_json())
+
+@login_required(login_url='error')
 @csrf_exempt
 def nodepair(request):
     if request.method == 'POST':
