@@ -142,6 +142,14 @@ class Graph:
             if i.label==s:
                 return i.failureRate
 
+    def find_repair_rate(self,s):
+        for i in self.links:
+            if i.label==s:
+                return i.repairRate
+        for i in self.nodes:
+            if i.label==s:
+                return i.repairRate
+
     def nodes_links_from_path(self,path,n1,n2):
         n,l=[],[]
         for i in path:
@@ -160,6 +168,11 @@ class Graph:
             R*=exp(-i.failureRate*t)
         return R
 
+    def path_availability(self, path, t):
+        A = 1
+        for i in self.nodes_links_from_path(path, None, None):
+            A *= i.repairRate / (i.failureRate + i.repairRate)
+        return A
 
     def calculate_reliability_dijkstra(self,n1,n2,t):
         #razina para cvora
@@ -180,6 +193,28 @@ class Graph:
                 for i in path:
                     if not not i:
                         tmp.append(self.path_reliability(i,t))
+                R.append((path,(min(tmp),sum(tmp)/len(tmp))))
+            return R
+
+    def calculate_availability_dijkstra(self,n1,n2,t):
+        #razina para cvora
+        if n1!=None and n2!=None:
+            R=[]
+            path=self.ele_path_dijkstra(n1,n2)
+            for i in path:
+                if not not i:
+                    R.append(self.path_availability(i,t))
+            return [(path,(min(R),sum(R)/len(R)))]
+        #razina mreze
+        else:
+            pairs=combinations(self.nodes,2)
+            R=[]
+            for i in pairs:
+                path=self.ele_path_dijkstra(i[0],i[1])
+                tmp=[]
+                for i in path:
+                    if not not i:
+                        tmp.append(self.path_availability(i,t))
                 R.append((path,(min(tmp),sum(tmp)/len(tmp))))
             return R
 
@@ -225,24 +260,60 @@ class Graph:
                 rel.append(R)
             return(min(rel),sum(rel)/len(rel))
 
+    def calculate_availability_all_paths(self,n1,n2,t):
+        #razina para cvora
+        if n1!=None and n2!=None:
+            ele_paths=self.ele_paths_to_bool(n1,n2)
+            paths=abraham(ele_paths)
+            R=0
+            for i in paths:
+                tmp=1
+                for j in range(len(i)):
+                    if i[j]=="1":
+                        tmp *= self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j]))
+                    elif i[j]=="0":
+                        tmp *= 1 - self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j]))
+                R+=tmp
+            R*=(n1.repairRate / (n1.failureRate + n1.repairRate)) * (n2.repairRate / (n2.failureRate + n2.repairRate))
+            return R
+        #razina mreze
+        else:
+            pairs=combinations(self.nodes,2)
+            rel=[]
+            for i in pairs:
+                ele_paths=self.ele_paths_to_bool(i[0],i[1])
+                paths=abraham(ele_paths)
+                R=0
+                for j in paths:
+                    tmp=1
+                    for k in range(len(j)):
+                        if j[k]=="1":
+                            tmp *= self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k]))
+                        elif j[k]=="0":
+                            tmp *= 1 - self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k]))
+                    R+=tmp
+                R*=(i[1].repairRate / (i[1].failureRate + i[1].repairRate)) * (i[0].repairRate / (i[0].failureRate + i[0].repairRate))
+                rel.append(R)
+            return(min(rel),sum(rel)/len(rel))
 
-nodes = [Node('a', 2000*1e-9, 0.7),
-         Node('b', 2000*1e-9, 0.7),
-         Node('c', 2000*1e-9, 0.7),
-         Node('d', 2000*1e-9, 0.8),
-         Node('e', 2000*1e-9, 0.8)]
-links = [Link(4, 2000*1e-9, 0.6, nodes[0], nodes[1],'e1'),
-         Link(1, 2000*1e-9, 0.6, nodes[0], nodes[2],'e2'),
-         Link(2, 2000*1e-9, 0.6, nodes[1], nodes[3],'e3'),
-         Link(2, 2000*1e-9, 0.6, nodes[2], nodes[3],'e4'),
-         Link(1, 2000*1e-9, 0.6, nodes[1], nodes[4],'e5'),
-         Link(1, 2000*1e-9, 0.6, nodes[3], nodes[4],'e6')]
+
+nodes = [Node('a', 2000*1e-9, 0.04),
+         Node('b', 2000*1e-9, 0.04),
+         Node('c', 2000*1e-9, 0.04),
+         Node('d', 2000*1e-9, 0.04),
+         Node('e', 2000*1e-9, 0.04)]
+links = [Link(4, 2000*1e-9, 0.04, nodes[0], nodes[1],'e1'),
+         Link(1, 2000*1e-9, 0.04, nodes[0], nodes[2],'e2'),
+         Link(2, 2000*1e-9, 0.04, nodes[1], nodes[3],'e3'),
+         Link(2, 2000*1e-9, 0.04, nodes[2], nodes[3],'e4'),
+         Link(1, 2000*1e-9, 0.04, nodes[1], nodes[4],'e5'),
+         Link(1, 2000*1e-9, 0.04, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-print g.calculate_reliability_all_paths(None,None,17520)
+print g.calculate_availability_all_paths(nodes[0], nodes[4],17520)
 
 # nodes=[Node('gdansk',1,1),  #0
-# Node('bydgoszcz',1,1),     #1
+# Node('bydgoszcz',1,1),      #1
 # Node('bialystok',1,1),      #2
 # Node('poznan',1,1),         #3
 # Node('warsaw',1,1),         #4

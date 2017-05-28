@@ -76,7 +76,7 @@ def dijkstra(request):
             for i in rel:
                 p=i[0]
                 r=i[1]
-                s+="{\"pahts\":"+json.dumps(paths_to_json(p[0],p[1]))
+                s+="{\"paths\":"+json.dumps(paths_to_json(p[0],p[1]))
                 s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"}},"
             s=s[:-1]
             s+="]}"
