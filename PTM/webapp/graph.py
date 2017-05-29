@@ -168,7 +168,7 @@ class Graph:
             R*=exp(-i.failureRate*t)
         return R
 
-    def path_availability(self, path, t):
+    def path_availability(self, path):
         A = 1
         for i in self.nodes_links_from_path(path, None, None):
             A *= i.repairRate / (i.failureRate + i.repairRate)
@@ -196,14 +196,14 @@ class Graph:
                 R.append((path,(min(tmp),sum(tmp)/len(tmp))))
             return R
 
-    def calculate_availability_dijkstra(self,n1,n2,t):
+    def calculate_availability_dijkstra(self,n1,n2):
         #razina para cvora
         if n1!=None and n2!=None:
             R=[]
             path=self.ele_path_dijkstra(n1,n2)
             for i in path:
                 if not not i:
-                    R.append(self.path_availability(i,t))
+                    R.append(self.path_availability(i))
             return [(path,(min(R),sum(R)/len(R)))]
         #razina mreze
         else:
@@ -214,7 +214,7 @@ class Graph:
                 tmp=[]
                 for i in path:
                     if not not i:
-                        tmp.append(self.path_availability(i,t))
+                        tmp.append(self.path_availability(i))
                 R.append((path,(min(tmp),sum(tmp)/len(tmp))))
             return R
 
@@ -260,7 +260,7 @@ class Graph:
                 rel.append(R)
             return(min(rel),sum(rel)/len(rel))
 
-    def calculate_availability_all_paths(self,n1,n2,t):
+    def calculate_availability_all_paths(self,n1,n2):
         #razina para cvora
         if n1!=None and n2!=None:
             ele_paths=self.ele_paths_to_bool(n1,n2)
@@ -310,7 +310,8 @@ links = [Link(4, 2000*1e-9, 0.04, nodes[0], nodes[1],'e1'),
          Link(1, 2000*1e-9, 0.04, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-print g.calculate_availability_all_paths(nodes[0], nodes[4],17520)
+a = g.calculate_availability_dijkstra(nodes[0], nodes[4])
+print a[0][1][0]
 
 # nodes=[Node('gdansk',1,1),  #0
 # Node('bydgoszcz',1,1),      #1

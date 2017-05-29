@@ -69,15 +69,19 @@ def dijkstra(request):
             t=json.loads(request.body)["t"]
             if 'start' in locals():
                 rel=g.calculate_reliability_dijkstra(start,end,t)
+                ava = g.calculate_availability_dijkstra(start, end)
             else:
                 rel=g.calculate_reliability_dijkstra(None,None,t)
+                ava = g.calculate_availability_dijkstra(None, None)
 
             s="{\"result\":["
             for i in rel:
                 p=i[0]
                 r=i[1]
                 s+="{\"paths\":"+json.dumps(paths_to_json(p[0],p[1]))
-                s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"}},"
+                s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"},"
+                s += "\"availability\":{\"s,t\":" + str(ava[0][1][0]) + ",\"av\":" + str(ava[0][1][1]) + "}},"
+                print s
             s=s[:-1]
             s+="]}"
             response=json.loads(s)
@@ -132,6 +136,7 @@ def nodepair(request):
                 s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"}},"
             s=s[:-1]
             s+="]}"
+            print s
             response=json.loads(s)
             return JsonResponse(response)
         else:
