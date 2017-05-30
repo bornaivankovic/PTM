@@ -310,8 +310,8 @@ links = [Link(4, 2000*1e-9, 0.04, nodes[0], nodes[1],'e1'),
          Link(1, 2000*1e-9, 0.04, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-a = g.calculate_availability_dijkstra(nodes[0], nodes[4])
-print a[0][1][0]
+a = g.calculate_reliability_all_paths(nodes[0], nodes[4], 1000)
+print a
 
 # nodes=[Node('gdansk',1,1),  #0
 # Node('bydgoszcz',1,1),      #1
