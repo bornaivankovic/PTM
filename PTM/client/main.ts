@@ -2,6 +2,7 @@ import { Node } from './models/node';
 import { Edge } from './models/edge';
 import { AjaxController } from './controllers/ajax.controller';
 import { Topology } from './models/topology';
+import * as FileSaver from 'file-saver';
 
 declare var vis: any;
 declare var $: any;
@@ -204,10 +205,22 @@ function dijkstraModal() {
         let endNode = $('#end-node').val();
         let time = parseInt($('#time').val());
         let calcDijkstr = new AjaxController();
-        calcDijkstr.sendTopology(username,password,startNode,endNode,time,nodes,edges);
-         $('#exampleModal').modal('hide');
+        calcDijkstr.sendTopology(username, password, startNode, endNode, time, nodes, edges);
+        $('#exampleModal').modal('hide');
     });
 }
 
+function exportTopology() {
+    $(".export").click(function () {
+        let jsonTopology = JSON.stringify({nodes,edges}, null, 2);
+        var blob = new Blob([jsonTopology], { type: "application/json;charset=utf-8" });
+        FileSaver.saveAs(blob, "topology" + ".json");
+        
+        $('#export-topology').modal('hide');
+
+    });
+
+}
 renderTopology();
 dijkstraModal();
+exportTopology();
