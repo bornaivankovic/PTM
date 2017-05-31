@@ -4,6 +4,7 @@ import { AjaxController } from './controllers/ajax.controller';
 import { Topology } from './models/topology';
 
 declare var vis: any;
+declare var $: any;
 
 let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
@@ -16,15 +17,14 @@ function renderTopology() {
 
     var container = document.getElementById('network');
 
+    let testNode1 = new Node('Node1', 'Node1', 1, 2);
+    let testNode2 = new Node('Node2', 'Node2', 1, 2);
+    let testNode3 = new Node('Node3', 'Node3', 1, 2);
+
+    nodes.push(testNode1);
+    nodes.push(testNode2);
+    nodes.push(testNode3);
     var ajaxRequest: AjaxController = new AjaxController();
-
-    let testnode: Node = new Node("Node1", "1", 12, 34);
-    let testnode2: Node = new Node("Node2", "2", 56, 78);
-
-
-
-    nodes.push(testnode);
-    nodes.push(testnode2);
 
     let visnodes = new vis.DataSet(nodes);
     let visedges = new vis.DataSet(edges);
@@ -33,12 +33,10 @@ function renderTopology() {
         nodes: visnodes,
         edges: visedges
     };
+
+
     topology.setNodes(nodes);
     topology.setEdges(edges);
-
-    topology.setStartNode(testnode.getLabel());
-    topology.setEndNode(testnode2.getLabel());
-    ajaxRequest.sendTopology(topology);
 
     var options = {
         nodes: {
@@ -112,13 +110,13 @@ function registerEvent(data: any) {
             document.getElementById('event-catcher').innerHTML = '<h2>Edge</h2>' + '<p><span>Label: </span>' + params.edges + '</p>'
                 + '<p><span>Failure rate:</span> ' + edge.getFailureRate() + '</p>'
                 + '<p><span>Repair rate: </span>' + edge.getRepairRate() + '</p>';
-        } else if(params.nodes.length > 0) {
+        } else if (params.nodes.length > 0) {
             let node: Node = topology.getNodeById(params.nodes['0']);
             document.getElementById('event-catcher').innerHTML = '<h2>Node</h2>' + '<p><span>Label: </span>' + params.nodes + '</p>'
                 + '<p><span>Edges: </span>' + params.edges + '</p>'
                 + '<p><span>Failure rate: </span>' + node.getFailureRate() + '</p>'
                 + '<p><span>Repair rate: </span>' + node.getRepairRate() + '</p>';
-        } else if(params.nodes.length == 0 && params.edges.length == 0) {
+        } else if (params.nodes.length == 0 && params.edges.length == 0) {
             document.getElementById('event-catcher').innerHTML = "";
         }
     });
@@ -188,4 +186,28 @@ function saveEdgeData(data: any, callback: any) {
 
 }
 
+function dijkstraModal() {
+
+    $('#exampleModal').on('show.bs.modal', function () {
+        $('#start-node').find('option').remove();
+        $('#end-node').find('option').remove();
+        for (var i = 0; i < nodes.length; i++) {
+            $('#start-node').append('<option>' + nodes[i].getLabel() + '</option>');
+            $('#end-node').append('<option>' + nodes[i].getLabel() + '</option>');
+        }
+    })
+
+    $(document).on('click', '.calculate', function () {
+        let username = $('#username').val();
+        let password = $('#password').val();
+        let startNode = $('#start-node').val();
+        let endNode = $('#end-node').val();
+        let time = parseInt($('#time').val());
+        let calcDijkstr = new AjaxController();
+        calcDijkstr.sendTopology(username,password,startNode,endNode,time,nodes,edges);
+         $('#exampleModal').modal('hide');
+    });
+}
+
 renderTopology();
+dijkstraModal();

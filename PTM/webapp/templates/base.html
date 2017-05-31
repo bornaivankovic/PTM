@@ -7,11 +7,12 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- Latest compiled and minified CSS -->
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ"
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u"
         crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'styles/vis.min.css' %}" />
     <link rel="stylesheet" type="text/css" href="{% static 'styles/styles.css' %}" />
-<link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,500,700" rel="stylesheet">
 </head>
 
 <body>
@@ -31,6 +32,48 @@
             </ul>
         </div>
     </nav>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                <ul class="nav navbar-nav">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">New</a></li>
+                            <li><a href="#">Import</a></li>
+                            <li><a href="#">Export</a></li>
+                             <li><a href="#">Close</a></li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Edit <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Delete topology</a></li>
+
+                        </ul>
+                    </li>
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Calculate <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#" data-toggle="modal" data-target="#exampleModal">Dijkstra</a></li>
+                            <li><a href="#">Node pair</a></li>
+                            <li><a href="#">Abraham</a></li>
+                        </ul>
+                    </li>
+                     <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Help <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">About</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+            </div>
+            <!-- /.navbar-collapse -->
+        </div>
+        <!-- /.container-fluid -->
+    </nav>
 
     <main class="main-container">
         <section class="network-container">
@@ -46,7 +89,7 @@
                     </tr>
                     <tr>
                         <td>Node label</td>
-                        <td><input id="node-label" value="" /></td>
+                        <td><input id="node-label" value="none" /></td>
                     </tr>
                     <tr>
                         <td>Node failure rate</td>
@@ -99,10 +142,49 @@
             </div>
         </aside>
     </main>
+    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="exampleModalLabel">Dijkstra path calculation</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username" class="control-label">Username:</label>
+                            <input type="text" class="form-control" id="username">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Password:</label>
+                            <input type="text" class="form-control" id="password">
+                        </div>
+                        <div class="form-group">
+                            <label for="start-node" class="control-label">Start node:</label>
+                            <select type="text" class="form-control" id="start-node"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-node" class="control-label">End node:</label>
+                            <select type="text" class="form-control" id="end-node"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="time" class="control-label">Time(seconds):</label>
+                            <input type="text" class="form-control" id="time">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default end" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary calculate">Calculate</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/app.js' %}"></script>
+
 <!-- Latest compiled and minified JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa"
     crossorigin="anonymous"></script>
