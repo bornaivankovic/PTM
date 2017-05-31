@@ -219,9 +219,15 @@ class Graph:
             return R
 
     def calculate_reliability_arbitrary(self,paths,t):
-        R=0
+        R=1
         for i in paths:
-           R+=self.path_reliability(i,t)
+           R-=(1 - self.path_reliability(i,t))
+        return R
+
+    def calculate_availability_arbitrary(self,paths):
+        R=1
+        for i in paths:
+           R-=(1 - self.path_availability(i))
         return R
 
     def calculate_reliability_all_paths(self,n1,n2,t):
@@ -310,8 +316,9 @@ links = [Link(4, 2000*1e-9, 0.04, nodes[0], nodes[1],'e1'),
          Link(1, 2000*1e-9, 0.04, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-a = g.calculate_reliability_all_paths(nodes[0], nodes[4], 1000)
-print a
+a = g.calculate_reliability_dijkstra(nodes[0], nodes[4], 1000)
+b = g.calculate_reliability_arbitrary([['a', 'c', 'd', 'e'], ['a', 'b', 'e']], 1000)
+print b
 
 # nodes=[Node('gdansk',1,1),  #0
 # Node('bydgoszcz',1,1),      #1
