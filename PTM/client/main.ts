@@ -4,6 +4,7 @@ import { AjaxController } from './controllers/ajax.controller';
 import { Topology } from './models/topology';
 import * as FileSaver from 'file-saver';
 
+declare var FileReader: any;
 declare var vis: any;
 declare var $: any;
 
@@ -11,21 +12,12 @@ let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
 let topology: Topology = new Topology();
 let isNodeSelected: boolean = false;
-
+let network: any;
 
 
 function renderTopology() {
 
     var container = document.getElementById('network');
-
-    let testNode1 = new Node('Node1', 'Node1', 1, 2);
-    let testNode2 = new Node('Node2', 'Node2', 1, 2);
-    let testNode3 = new Node('Node3', 'Node3', 1, 2);
-
-    nodes.push(testNode1);
-    nodes.push(testNode2);
-    nodes.push(testNode3);
-    var ajaxRequest: AjaxController = new AjaxController();
 
     let visnodes = new vis.DataSet(nodes);
     let visedges = new vis.DataSet(edges);
@@ -91,7 +83,7 @@ function renderTopology() {
     };
 
     // initialize your network!
-    var network = new vis.Network(container, data, options);
+    network = new vis.Network(container, data, options);
     registerEvent(network);
 
 }
@@ -187,17 +179,22 @@ function saveEdgeData(data: any, callback: any) {
 
 }
 
+function abrahamModal() {
+        setSelectionOptions();
+        $(document).on('click', '.calculate-abraham', function () {
+        let username = $('#username-abraham').val();
+        let password = $('#password-abraham').val();
+        let startNode = $('#start-node-abraham').val();
+        let endNode = $('#end-node-abraham').val();
+        let time = parseInt($('#time-abraham').val());
+        let calcDijkstr = new AjaxController();
+        calcDijkstr.abrahamCalculation(username, password, startNode, endNode, time, nodes, edges);
+        $('#abrahamModal').modal('hide');
+    });
+}
+
 function dijkstraModal() {
-
-    $('#exampleModal').on('show.bs.modal', function () {
-        $('#start-node').find('option').remove();
-        $('#end-node').find('option').remove();
-        for (var i = 0; i < nodes.length; i++) {
-            $('#start-node').append('<option>' + nodes[i].getLabel() + '</option>');
-            $('#end-node').append('<option>' + nodes[i].getLabel() + '</option>');
-        }
-    })
-
+    setSelectionOptions();
     $(document).on('click', '.calculate', function () {
         let username = $('#username').val();
         let password = $('#password').val();
@@ -205,22 +202,54 @@ function dijkstraModal() {
         let endNode = $('#end-node').val();
         let time = parseInt($('#time').val());
         let calcDijkstr = new AjaxController();
-        calcDijkstr.sendTopology(username, password, startNode, endNode, time, nodes, edges);
+        calcDijkstr.dijkstraCalculation(username, password, startNode, endNode, time, nodes, edges);
         $('#exampleModal').modal('hide');
+        
     });
 }
 
 function exportTopology() {
     $(".export").click(function () {
-        let jsonTopology = JSON.stringify({nodes,edges}, null, 2);
+        let jsonTopology = JSON.stringify({ nodes, edges }, null, 2);
         var blob = new Blob([jsonTopology], { type: "application/json;charset=utf-8" });
         FileSaver.saveAs(blob, "topology" + ".json");
-        
+
         $('#export-topology').modal('hide');
+    });
+}
+
+function setSelectionOptions() {
+        $('#exampleModal, #abrahamModal').on('show.bs.modal', function () {
+        $('#start-node, #start-node-abraham').find('option').remove();
+        $('#end-node,  #end-node-abraham').find('option').remove();
+        for (var i = 0; i < nodes.length; i++) {
+            $('#start-node, #start-node-abraham').append('<option>' + nodes[i].getLabel() + '</option>');
+            $('#end-node, #end-node-abraham').append('<option>' + nodes[i].getLabel() + '</option>');
+        }
+        $('#start-node, #start-node-abraham').append('<option>' + 'Network' + '</option>');
+        $('#end-node, #end-node-abraham').append('<option>' + 'Network' + '</option>');
+    })
+}
+
+function deleteNetwork() {
+    $("#delete-topology").on('click', function() {
+        edges = [];
+        nodes = [];
+        network.destroy();
+        network = null;
+        renderTopology();
+    });
+}
+
+function importTopology() {
+
+    $('.import').click(function () {
+    
 
     });
-
 }
 renderTopology();
 dijkstraModal();
+abrahamModal();
 exportTopology();
+deleteNetwork();

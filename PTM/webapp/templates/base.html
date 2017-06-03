@@ -41,7 +41,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#">New</a></li>
-                            <li><a href="#">Import</a></li>
+                            <li><a href="#" class="import">Import</a></li>
                             <li><a href="#" data-toggle="modal" data-target="#export-topology">Export</a></li>
                             <li><a href="#">Close</a></li>
                         </ul>
@@ -49,7 +49,7 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Edit <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">Delete topology</a></li>
+                            <li><a href="#" id="delete-topology">Delete topology</a></li>
 
                         </ul>
                     </li>
@@ -57,8 +57,7 @@
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Calculate <span class="caret"></span></a>
                         <ul class="dropdown-menu">
                             <li><a href="#" data-toggle="modal" data-target="#exampleModal">Dijkstra</a></li>
-                            <li><a href="#">Node pair</a></li>
-                            <li><a href="#">Abraham</a></li>
+                            <li><a href="#" data-toggle="modal" data-target="#abrahamModal">Node pair</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -142,6 +141,7 @@
             </div>
         </aside>
     </main>
+    <!-- Export topology modal -->
     <div class="modal fade" id="export-topology" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -156,18 +156,16 @@
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-success export">Export</button>
                 </div>
-            </div>
-            <!-- /.modal-content -->
+            </div>>
         </div>
-        <!-- /.modal-dialog -->
     </div>
-    <!-- /.modal -->
+    <!-- dijkstra modal -->
     <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                    <h4 class="modal-title" id="exampleModalLabel">Dijkstra path calculation</h4>
+                    <h4 class="modal-title" id="exampleModalLabel">Dijkstra algorithm calculation</h4>
                 </div>
                 <div class="modal-body">
                     <form>
@@ -200,9 +198,49 @@
             </div>
         </div>
     </div>
+        <!-- abraham modal -->
+    <div class="modal fade" id="abrahamModal" tabindex="-1" role="dialog" aria-labelledby="abrahamModalLabel">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title" id="abrahamModalLabel">Abraham algorithm calculation</h4>
+                </div>
+                <div class="modal-body">
+                    <form>
+                        <div class="form-group">
+                            <label for="username" class="control-label">Username:</label>
+                            <input type="text" class="form-control" id="username-abraham">
+                        </div>
+                        <div class="form-group">
+                            <label for="password" class="control-label">Password:</label>
+                            <input type="text" class="form-control" id="password-abraham">
+                        </div>
+                        <div class="form-group">
+                            <label for="start-node" class="control-label">Start node:</label>
+                            <select type="text" class="form-control" id="start-node-abraham"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="end-node" class="control-label">End node:</label>
+                            <select type="text" class="form-control" id="end-node-abraham"></select>
+                        </div>
+                        <div class="form-group">
+                            <label for="time" class="control-label">Time(seconds):</label>
+                            <input type="text" class="form-control" id="time-abraham">
+                        </div>
+                    </form>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default end" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary calculate-abraham">Calculate</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </body>
 <script type="text/javascript" src="{% static 'js/jquery-3.2.1.min.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/vis.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/filereader.js' %}"></script>
 <script async="" src="https://cdn.rawgit.com/eligrey/FileSaver.js/e9d941381475b5df8b7d7691013401e171014e89/FileSaver.min.js"></script>
 
 
