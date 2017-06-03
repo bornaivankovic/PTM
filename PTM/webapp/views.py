@@ -75,13 +75,13 @@ def dijkstra(request):
                 ava = g.calculate_availability_dijkstra(None, None)
 
             s="{\"result\":["
-            for i in rel:
-                p=i[0]
-                r=i[1]
+            for i in range(rel.__len__()):
+                p=rel[i][0]
+                r=rel[i][1]
+                a = ava[i][1]
                 s+="{\"paths\":"+json.dumps(paths_to_json(p[0],p[1]))
                 s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"},"
-                s += "\"availability\":{\"s,t\":" + str(ava[0][1][0]) + ",\"av\":" + str(ava[0][1][1]) + "}},"
-                print s
+                s += "\"availability\":{\"s,t\":" + str(a[0]) + ",\"av\":" + str(a[1]) + "}},"
             s=s[:-1]
             s+="]}"
             response=json.loads(s)
@@ -126,11 +126,12 @@ def nodepair(request):
             if 'start' in locals():
                 rel=g.calculate_reliability_all_paths(start,end,t)
                 ava = g.calculate_availability_all_paths(start, end)
+                s = "{\"result\":{\"reliability\":" + str(rel) + ",\"availability\":" + str(ava) + "}}"
             else:
                 rel=g.calculate_reliability_all_paths(None,None,t)
                 ava = g.calculate_availability_all_paths(None, None)
+                s = "{\"result\":{\"reliability\":{\"s,t\":" + str(rel[0]) + ",\"av\":" + str(rel[1]) + "},\"availability\":{\"s,t\":" + str(ava[0]) + ",\"av\":" + str(ava[1]) + "}}}"
 
-            s="{\"reliability\":" + str(rel) + ",\"availability\":" + str(ava) + "}"
             response=json.loads(s)
             return JsonResponse(response)
         else:
@@ -140,3 +141,41 @@ def nodepair(request):
             return JsonResponse(g.to_json())
     else:
         return HttpResponse(status = 401)
+
+@csrf_exempt
+def paths(request):
+    username = json.loads(request.body)["username"]
+    password = json.loads(request.body)["password"]
+    if authenticate(username=username, password=password) is not None:
+        if request.method == 'POST':
+            nodes = []
+            links = []
+            linksLabels = []
+            for i in json.loads(request.body)["nodes"]:
+                nodes.append(node_from_dict(i))
+            for i in json.loads(request.body)["links"]:
+                linksLabels.append(link_from_dict(i))
+            d = {}
+            for i in nodes:
+                d[i.label] = i
+            for i in linksLabels:
+                links.append(Link(i.length, i.failureRate, i.repairRate, d[i.src], d[i.dest], i.label))
+            pathsString = json.loads(request.body)["paths"]
+            t = json.loads(request.body)["t"]
+            paths = []
+            for i in pathsString:
+                paths.append(i.split("-"))
+            g = Graph(nodes, links)
+            rel = g.calculate_reliability_arbitrary(paths, t)
+            ava = g.calculate_availability_arbitrary(paths)
+
+            s = "{\"reliability\":" + str(rel) + ",\"availability\":" + str(ava) + "}"
+            return JsonResponse(json.loads(s))
+
+        else:
+            nodes = request.session["nodes"]
+            links = request.session["links"]
+            g = Graph(nodes, links)
+            return JsonResponse(g.to_json())
+    else:
+        return HttpResponse(status=401)

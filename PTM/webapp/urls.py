@@ -11,5 +11,6 @@ urlpatterns = [
     url(r'^dijkstra', views.dijkstra, name='dijkstra'),
     url(r'^nodepair',views.nodepair,name="nodepair"),
     url(r'^signup',views.signup,name='singup'),
-    url(r'^error',views.error,name='error')
+    url(r'^error',views.error,name='error'),
+    url(r'^paths', views.paths, name='paths')
 ]
