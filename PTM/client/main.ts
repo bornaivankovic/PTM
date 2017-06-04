@@ -7,6 +7,7 @@ import * as FileSaver from 'file-saver';
 declare var FileReader: any;
 declare var vis: any;
 declare var $: any;
+declare var Dropzone: any;
 
 let nodes: Node[] = new Array<Node>();
 let edges: Edge[] = new Array<Edge>();
@@ -180,8 +181,8 @@ function saveEdgeData(data: any, callback: any) {
 }
 
 function abrahamModal() {
-        setSelectionOptions();
-        $(document).on('click', '.calculate-abraham', function () {
+    setSelectionOptions();
+    $(document).on('click', '.calculate-abraham', function () {
         let username = $('#username-abraham').val();
         let password = $('#password-abraham').val();
         let startNode = $('#start-node-abraham').val();
@@ -204,7 +205,7 @@ function dijkstraModal() {
         let calcDijkstr = new AjaxController();
         calcDijkstr.dijkstraCalculation(username, password, startNode, endNode, time, nodes, edges);
         $('#exampleModal').modal('hide');
-        
+
     });
 }
 
@@ -219,7 +220,7 @@ function exportTopology() {
 }
 
 function setSelectionOptions() {
-        $('#exampleModal, #abrahamModal').on('show.bs.modal', function () {
+    $('#exampleModal, #abrahamModal').on('show.bs.modal', function () {
         $('#start-node, #start-node-abraham').find('option').remove();
         $('#end-node,  #end-node-abraham').find('option').remove();
         for (var i = 0; i < nodes.length; i++) {
@@ -232,7 +233,7 @@ function setSelectionOptions() {
 }
 
 function deleteNetwork() {
-    $("#delete-topology").on('click', function() {
+    $("#delete-topology").on('click', function () {
         edges = [];
         nodes = [];
         network.destroy();
@@ -241,13 +242,54 @@ function deleteNetwork() {
     });
 }
 
-function importTopology() {
+var json;
 
-    $('.import').click(function () {
-    
+document.getElementById('file').addEventListener('change', handleFileSelect, false);
 
-    });
+function handleFileSelect(evt: any) {
+    var files = evt.target.files; // FileList object
+
+    // files is a FileList of File objects. List some properties.
+    var output = [];
+    for (var i = 0, f; f = files[i]; i++) {
+        var reader = new FileReader();
+
+        // Closure to capture the file information.
+        reader.onload = (function (theFile) {
+            return function (e: any) {
+                    json = JSON.parse(e.target.result);
+                    setImportedTopology(json);
+            }
+        })(f);
+        reader.readAsText(f);
+    }
+
 }
+
+function setImportedTopology(json: any) {
+    edges = [];
+    nodes = [];
+    for(let node of json.nodes) {
+        let tmpNode = new Node(node.label, node.id, node.failureRate, node.repairRate);
+        nodes.push(tmpNode);
+    }
+        for(let edge of json.edges) {
+        let tmpEdge = new Edge(edge.label, edge.id, edge.from, edge.to, edge.length, edge.failureRate, edge.repairRate);
+        edges.push(tmpEdge);
+    }
+
+    console.log(nodes);
+        console.log(edges);
+}
+
+$('.import').on('click', function(){
+    network.destroy();
+    network = null;
+    renderTopology();
+    $('#import-topology').modal('hide');
+});
+
+document.getElementById('file').addEventListener('change', handleFileSelect, false);
 renderTopology();
 dijkstraModal();
 abrahamModal();

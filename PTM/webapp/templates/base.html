@@ -40,10 +40,8 @@
                     <li class="dropdown">
                         <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">File <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">New</a></li>
-                            <li><a href="#" class="import">Import</a></li>
+                            <li><a href="#" class="import" data-toggle="modal" data-target="#import-topology">Import</a></li>
                             <li><a href="#" data-toggle="modal" data-target="#export-topology">Export</a></li>
-                            <li><a href="#">Close</a></li>
                         </ul>
                     </li>
                     <li class="dropdown">
@@ -155,6 +153,25 @@
                 <div class="modal-footer">
                     <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                     <button type="button" class="btn btn-success export">Export</button>
+                </div>
+            </div>>
+        </div>
+    </div>
+        <!-- Import topology modal -->
+    <div class="modal fade" id="import-topology" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Import topology</h4>
+                </div>
+                <div class="modal-body">
+
+                    <input type="file" id="file" />
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-success import">Import</button>
                 </div>
             </div>>
         </div>
