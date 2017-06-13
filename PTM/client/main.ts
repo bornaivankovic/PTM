@@ -18,13 +18,15 @@ let globalUsername: string = '';
 let globalPassword: string = '';
 let globalResultDijkstra: any;
 let globalResultAbraham: any;
+let visnodes: any;
+let visedges: any;
 
 function renderTopology() {
 
     var container = document.getElementById('network');
 
-    let visnodes = new vis.DataSet(nodes);
-    let visedges = new vis.DataSet(edges);
+     visnodes = new vis.DataSet(nodes);
+     visedges = new vis.DataSet(edges);
 
     var data = {
         nodes: visnodes,
@@ -84,12 +86,13 @@ function renderTopology() {
                 }
             }
         }
+
     };
 
     // initialize your network!
     network = new vis.Network(container, data, options);
     registerEvent(network);
-
+    
 }
 
 function editNode(data: any, callback: any) {
@@ -140,10 +143,8 @@ function saveNodeData(data: any, callback: any) {
 
     let tempNode: Node = new Node(data.label, data.id, data.failureRate, data.repairRate);
     nodes.push(tempNode);
-    console.log(nodes);
     callback(data);
-
-
+    $('.calculation-container').append("<div class='success-msg-green'>Node added...</div>");
 }
 
 function editEdgeWithoutDrag(data: any, callback: any) {
@@ -177,15 +178,15 @@ function saveEdgeData(data: any, callback: any) {
     data.length = Number((<HTMLInputElement>document.getElementById('edge-length')).value);
     let tempEdge: Edge = new Edge(data.label, data.id, data.from, data.to, data.length, data.failureRate, data.repairRate);
     edges.push(tempEdge);
-    console.log(edges);
     clearEdgePopUp();
     callback(data);
-
+    $('.calculation-container').append("<div class='success-msg-green'>Edge added...</div>");
 }
 
 function abrahamModal() {
     setSelectionOptions();
     $(document).on('click', '.calculate-abraham', function () {
+        $('.calculation-container').append("<div class='success-msg-yellow'>Calculating using Abraham algorithm...</div>");
         $('.resultsAbraham').find('.panel-group').remove();
         let username = globalUsername;
         let password = globalPassword;
@@ -203,13 +204,14 @@ function abrahamModal() {
             $('.resultsAbraham').append("<div class='panel-group green' id='accordion2' role='tablist' aria-multiselectable='true'> <div class='panel panel-default'> <div class='panel-heading' role='tab' id='headingOne'> <h4 class='panel-title  text-center'> <a role='button' data-toggle='collapse' data-parent='#accordion' href='" + "#collapseAbraham" + resultIterator + "'" + " aria-expanded='false' aria-controls='" + "collapseAbraham" + resultIterator + "'" + ">" + "Result " + resultIterator + "</a> </h4> </div> <div id='" + "collapseAbraham" + resultIterator + "'" + "class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'> <div class='panel-body'>" + "<div><span>Availability: </span>" + result.availability + "</div>" + "<div><span>Reliablity: </span>" + result.reliability + "</div>" + "</div> </div> </div>");
 
         }
-
+        $('.calculation-container').append("<div class='success-msg-green'>Calculation done...</div>");
     });
 }
 
 function dijkstraModal() {
     setSelectionOptions();
     $(document).on('click', '.calculate', function () {
+                $('.calculation-container').append("<div class='success-msg-yellow'>Calculating using Dijkstra algorithm...</div>");
         $('.results').find('.panel-group').remove();
         let username = globalUsername;
         let password = globalPassword;
@@ -225,6 +227,7 @@ function dijkstraModal() {
             $('.results').append("<div class='panel-group green' id='accordion' role='tablist' aria-multiselectable='true'> <div class='panel panel-default'> <div class='panel-heading' role='tab' id='headingOne'> <h4 class='panel-title  text-center'> <a role='button' data-toggle='collapse' data-parent='#accordion' href='" + "#collapse" + resultIterator + "'" + " aria-expanded='false' aria-controls='" + "collapse" + resultIterator + "'" + ">" + "Result " + resultIterator + "</a> </h4> </div> <div id='" + "collapse" + resultIterator + "'" + "class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'> <div class='panel-body'>" + "<div><span>Path1: </span>" + result.paths.path1 + "</div>" + "<div><span>Path2: </span>" + result.paths.path2 + "</div>" + "<div><span>Availability(av): </span>" + result.availability.av + "</div>" + "<div><span>Availability(s,t): </span>" + result.availability["s,t"] + "</div>" + "<div><span>Reliablity(av): </span>" + result.reliability.av + "</div>" + "<div><span>Reliability(s,t): </span>" + result.reliability["s,t"] + "</div>" + "</div> </div> </div>");
             resultIterator++;
         }
+                $('.calculation-container').append("<div class='success-msg-green'>Calculation done...</div>");
     });
 }
 
@@ -235,6 +238,7 @@ function exportTopology() {
         FileSaver.saveAs(blob, "topology" + ".json");
 
         $('#export-topology').modal('hide');
+                $('.calculation-container').append("<div class='success-msg-white'>Topology exported...</div>");
     });
 }
 
@@ -258,6 +262,7 @@ function deleteNetwork() {
         network.destroy();
         network = null;
         renderTopology();
+                $('.calculation-container').append("<div class='success-msg-red'>Network deleted...</div>");
     });
 }
 
@@ -281,6 +286,7 @@ function handleFileSelect(evt: any) {
             }
         })(f);
         reader.readAsText(f);
+                $('.calculation-container').append("<div class='success-msg-white'>Topology imported...</div>");
     }
 
 }

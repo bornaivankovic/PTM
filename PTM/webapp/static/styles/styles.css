@@ -600,7 +600,13 @@ font-family: 'Roboto', sans-serif;
 
  .calculation-container h2 {
    line-height: 400px;
+
  }
+
+  .calculation-container {
+   overflow-y: auto;
+   padding: 20px;
+  }
 
  #event-catcher p:first-of-type {
    margin-top: 40px;
@@ -637,4 +643,30 @@ font-family: 'Roboto', sans-serif;
   text-transform: uppercase;
   font-size: 16px;
 
+}
+
+.navbar {
+  margin-bottom: 0px!important;
+}
+
+.success-msg-green {
+  color: #9BC53D;
+  padding-left: 30px;
+}
+
+.success-msg-red {
+  color: #E55934;
+    padding-left: 30px;
+}
+.success-msg-white {
+  color: white;
+    padding-left: 30px;
+}
+.success-msg-yellow {
+  color: #FDE74C;
+    padding-left: 30px;
+}
+
+::-webkit-scrollbar { 
+    display: none; 
 }
