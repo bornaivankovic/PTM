@@ -185,8 +185,8 @@ function saveEdgeData(data: any, callback: any) {
 function abrahamModal() {
     setSelectionOptions();
     $(document).on('click', '.calculate-abraham', function () {
-        let username = $('#username-abraham').val();
-        let password = $('#password-abraham').val();
+        let username = globalUsername;
+        let password = globalPassword;
         let startNode = $('#start-node-abraham').val();
         let endNode = $('#end-node-abraham').val();
         let time = parseInt($('#time-abraham').val());
@@ -199,8 +199,8 @@ function abrahamModal() {
 function dijkstraModal() {
     setSelectionOptions();
     $(document).on('click', '.calculate', function () {
-        let username = $('#username').val();
-        let password = $('#password').val();
+        let username = globalUsername;
+        let password = globalPassword;
         let startNode = $('#start-node').val();
         let endNode = $('#end-node').val();
         let time = parseInt($('#time').val());
