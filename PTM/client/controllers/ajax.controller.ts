@@ -28,7 +28,6 @@ export class AjaxController {
     }
 
     public abrahamCalculation(username: string, password: string, start: string, end: string, t: number, nodes: any, links: any): void {
-        let result;
         if (start == 'Network' || end == 'Network') {
             var jsonTopology = JSON.stringify({ username, password, nodes, links, t });
 
@@ -39,9 +38,9 @@ export class AjaxController {
             url: 'http://localhost:8000/nodepair',
             method: 'POST',
             context: this,
+            async: false,
             data: jsonTopology,
             success: function (data: any) {
-                result = data;
             },
             error: function (data: any) {
                 console.log(data);

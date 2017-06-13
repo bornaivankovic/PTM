@@ -16,7 +16,8 @@ let isNodeSelected: boolean = false;
 let network: any;
 let globalUsername: string = '';
 let globalPassword: string = '';
-let globalResult: any;
+let globalResultDijkstra: any;
+let globalResultAbraham: any;
 
 function renderTopology() {
 
@@ -185,38 +186,46 @@ function saveEdgeData(data: any, callback: any) {
 function abrahamModal() {
     setSelectionOptions();
     $(document).on('click', '.calculate-abraham', function () {
+        $('.resultsAbraham').find('.panel-group').remove();
         let username = globalUsername;
         let password = globalPassword;
         let startNode = $('#start-node-abraham').val();
         let endNode = $('#end-node-abraham').val();
         let time = parseInt($('#time-abraham').val());
         let calcDijkstr = new AjaxController();
-        globalResult = calcDijkstr.abrahamCalculation(username, password, startNode, endNode, time, nodes, edges);
-        $('#abrahamModal').modal('hide');
-        console.log(globalResult);
+        globalResultAbraham = calcDijkstr.abrahamCalculation(username, password, startNode, endNode, time, nodes, edges);
+        let resultIterator = 1;
+        let result = globalResultAbraham.responseJSON.result;
+        if (typeof globalResultAbraham.responseJSON.result.availability == 'object') {
+            $('.resultsAbraham').append("<div class='panel-group green' id='accordion2' role='tablist' aria-multiselectable='true'> <div class='panel panel-default'> <div class='panel-heading' role='tab' id='headingOne'> <h4 class='panel-title  text-center'> <a role='button' data-toggle='collapse' data-parent='#accordion' href='" + "#collapseAbraham" + resultIterator + "'" + " aria-expanded='false' aria-controls='" + "collapseAbraham" + resultIterator + "'" + ">" + "Result " + resultIterator + "</a> </h4> </div> <div id='" + "collapseAbraham" + resultIterator + "'" + "class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'> <div class='panel-body'>" + "<div><span>Availability(av): </span>" + result.availability.av + "</div>" + "<div><span>Availability(s,t): </span>" + result.availability["s,t"] + "</div>" + "<div><span>Reliablity(av): </span>" + result.reliability.av + "</div>" + "<div><span>Reliability(s,t): </span>" + result.reliability["s,t"] + "</div>" + "</div> </div> </div>");
 
-        
+        } else {
+            $('.resultsAbraham').append("<div class='panel-group green' id='accordion2' role='tablist' aria-multiselectable='true'> <div class='panel panel-default'> <div class='panel-heading' role='tab' id='headingOne'> <h4 class='panel-title  text-center'> <a role='button' data-toggle='collapse' data-parent='#accordion' href='" + "#collapseAbraham" + resultIterator + "'" + " aria-expanded='false' aria-controls='" + "collapseAbraham" + resultIterator + "'" + ">" + "Result " + resultIterator + "</a> </h4> </div> <div id='" + "collapseAbraham" + resultIterator + "'" + "class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'> <div class='panel-body'>" + "<div><span>Availability: </span>" + result.availability + "</div>" + "<div><span>Reliablity: </span>" + result.reliability + "</div>" + "</div> </div> </div>");
+
+        }
+
     });
 }
 
 function dijkstraModal() {
     setSelectionOptions();
     $(document).on('click', '.calculate', function () {
+        $('.results').find('.panel-group').remove();
         let username = globalUsername;
         let password = globalPassword;
         let startNode = $('#start-node').val();
         let endNode = $('#end-node').val();
         let time = parseInt($('#time').val());
         let calcDijkstr = new AjaxController();
-        globalResult = calcDijkstr.dijkstraCalculation(username, password, startNode, endNode, time, nodes, edges);
-        $('.results').html("<div>"+ globalResult.responseText + "</div>");
-        //$('#exampleModal').modal('hide');
-        console.log(globalResult.responseText);
+        globalResultDijkstra = calcDijkstr.dijkstraCalculation(username, password, startNode, endNode, time, nodes, edges);
+        let resultIterator = 1;
+        for (let result of globalResultDijkstra.responseJSON.result) {
+
+            console.log(result);
+            $('.results').append("<div class='panel-group green' id='accordion' role='tablist' aria-multiselectable='true'> <div class='panel panel-default'> <div class='panel-heading' role='tab' id='headingOne'> <h4 class='panel-title  text-center'> <a role='button' data-toggle='collapse' data-parent='#accordion' href='" + "#collapse" + resultIterator + "'" + " aria-expanded='false' aria-controls='" + "collapse" + resultIterator + "'" + ">" + "Result " + resultIterator + "</a> </h4> </div> <div id='" + "collapse" + resultIterator + "'" + "class='panel-collapse collapse' role='tabpanel' aria-labelledby='headingOne'> <div class='panel-body'>" + "<div><span>Path1: </span>" + result.paths.path1 + "</div>" + "<div><span>Path2: </span>" + result.paths.path2 + "</div>" + "<div><span>Availability(av): </span>" + result.availability.av + "</div>" + "<div><span>Availability(s,t): </span>" + result.availability["s,t"] + "</div>" + "<div><span>Reliablity(av): </span>" + result.reliability.av + "</div>" + "<div><span>Reliability(s,t): </span>" + result.reliability["s,t"] + "</div>" + "</div> </div> </div>");
+            resultIterator++;
+        }
     });
-}
-
-function dijkstraResult() {
-
 }
 
 function exportTopology() {
