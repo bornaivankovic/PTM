@@ -16,7 +16,7 @@ let isNodeSelected: boolean = false;
 let network: any;
 let globalUsername: string = '';
 let globalPassword: string = '';
-
+let globalResult: any;
 
 function renderTopology() {
 
@@ -191,8 +191,11 @@ function abrahamModal() {
         let endNode = $('#end-node-abraham').val();
         let time = parseInt($('#time-abraham').val());
         let calcDijkstr = new AjaxController();
-        calcDijkstr.abrahamCalculation(username, password, startNode, endNode, time, nodes, edges);
+        globalResult = calcDijkstr.abrahamCalculation(username, password, startNode, endNode, time, nodes, edges);
         $('#abrahamModal').modal('hide');
+        console.log(globalResult);
+
+        
     });
 }
 
@@ -205,10 +208,15 @@ function dijkstraModal() {
         let endNode = $('#end-node').val();
         let time = parseInt($('#time').val());
         let calcDijkstr = new AjaxController();
-        calcDijkstr.dijkstraCalculation(username, password, startNode, endNode, time, nodes, edges);
-        $('#exampleModal').modal('hide');
-
+        globalResult = calcDijkstr.dijkstraCalculation(username, password, startNode, endNode, time, nodes, edges);
+        $('.results').html("<div>"+ globalResult.responseText + "</div>");
+        //$('#exampleModal').modal('hide');
+        console.log(globalResult.responseText);
     });
+}
+
+function dijkstraResult() {
+
 }
 
 function exportTopology() {

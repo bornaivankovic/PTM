@@ -1,6 +1,8 @@
 declare var $: any;
 
 export class AjaxController {
+
+
     constructor() {
     }
 
@@ -10,13 +12,14 @@ export class AjaxController {
         } else {
             var jsonTopology = JSON.stringify({ username, password, nodes, links, start, end, t });
         }
-        $.ajax({
+        return $.ajax({
             url: 'http://localhost:8000/dijkstra',
             method: 'POST',
+            async: false,
             context: this,
             data: jsonTopology,
             success: function (data: any) {
-                console.log(data);
+
             },
             error: function (data: any) {
                 console.log(data);
@@ -25,21 +28,20 @@ export class AjaxController {
     }
 
     public abrahamCalculation(username: string, password: string, start: string, end: string, t: number, nodes: any, links: any): void {
+        let result;
         if (start == 'Network' || end == 'Network') {
             var jsonTopology = JSON.stringify({ username, password, nodes, links, t });
-            console.log(jsonTopology);
 
         } else {
             var jsonTopology = JSON.stringify({ username, password, nodes, links, start, end, t });
-            console.log(jsonTopology);
         }
-        $.ajax({
+        return $.ajax({
             url: 'http://localhost:8000/nodepair',
             method: 'POST',
             context: this,
             data: jsonTopology,
             success: function (data: any) {
-                console.log(data);
+                result = data;
             },
             error: function (data: any) {
                 console.log(data);
