@@ -2,7 +2,7 @@ import { FailRepairRate } from './rates';
 
 export class Node extends FailRepairRate {
     private label: string;
-    private id: string;
+    private id: string; 
 
     constructor(label:string, id:string, failureRate:number, repairRate:number) { 
         super();
