@@ -14,6 +14,8 @@ let edges: Edge[] = new Array<Edge>();
 let topology: Topology = new Topology();
 let isNodeSelected: boolean = false;
 let network: any;
+let globalUsername: string = '';
+let globalPassword: string = '';
 
 
 function renderTopology() {
@@ -257,8 +259,8 @@ function handleFileSelect(evt: any) {
         // Closure to capture the file information.
         reader.onload = (function (theFile) {
             return function (e: any) {
-                    json = JSON.parse(e.target.result);
-                    setImportedTopology(json);
+                json = JSON.parse(e.target.result);
+                setImportedTopology(json);
             }
         })(f);
         reader.readAsText(f);
@@ -269,20 +271,20 @@ function handleFileSelect(evt: any) {
 function setImportedTopology(json: any) {
     edges = [];
     nodes = [];
-    for(let node of json.nodes) {
+    for (let node of json.nodes) {
         let tmpNode = new Node(node.label, node.id, node.failureRate, node.repairRate);
         nodes.push(tmpNode);
     }
-        for(let edge of json.edges) {
+    for (let edge of json.edges) {
         let tmpEdge = new Edge(edge.label, edge.id, edge.from, edge.to, edge.length, edge.failureRate, edge.repairRate);
         edges.push(tmpEdge);
     }
 
     console.log(nodes);
-        console.log(edges);
+    console.log(edges);
 }
 
-$('.import').on('click', function(){
+$('.import').on('click', function () {
     network.destroy();
     network = null;
     renderTopology();
@@ -290,6 +292,23 @@ $('.import').on('click', function(){
 });
 
 document.getElementById('file').addEventListener('change', handleFileSelect, false);
+
+$(document).ready(function () {
+    $('.form-validation-success').hide();
+    $('.form-validation-error').hide();
+    if (globalUsername == '' || globalPassword == '') {
+        $('#login-modal').modal('show');
+        $('.login').on('click', function () {
+            let username = $('#username-input').val();
+            let password = $('#password-input').val();
+            globalPassword = password;
+            globalUsername = username;
+            let signAjax = new AjaxController();
+            signAjax.signup(username, password);
+
+        });
+    }
+});
 renderTopology();
 dijkstraModal();
 abrahamModal();

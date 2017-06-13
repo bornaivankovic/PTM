@@ -27,7 +27,6 @@
             </ul>
             <ul class="navbar-nav">
                 <li class="nav-item">
-                    <a class="nav-link" href="">Odjavi se</a>
                 </li>
             </ul>
         </div>
@@ -139,6 +138,42 @@
             </div>
         </aside>
     </main>
+    <!-- Login & registration modal -->
+    <div class="modal fade" id="login-modal" tabindex="-1" role="dialog" data-backdrop="static" data-keyboard="false">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">LOGIN | REGISTER</h4>
+                </div>
+                <div class="modal-body">
+                    <div class="panel-heading">
+                    </div>
+                    <div class="panel-body">
+                        <div class="alert alert-danger alert-dismissible fade in form-validation-error" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            User doesn't exist!
+                        </div>
+                        <div class="alert alert-success alert-dismissible fade in form-validation-success" role="alert"> <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">×</span></button>
+                            Login successful!
+                        </div>
+                        <form role="form">
+                            <fieldset>
+                                <div class="form-group">
+                                    <input class="form-control" id="username-input" placeholder="Username" name="username" type="username" autofocus="">
+                                </div>
+                                <div class="form-group">
+                                    <input class="form-control" id="password-input" placeholder="Password" name="password" type="password" value="">
+                                </div>
+                                <!-- Change this to a button or input when using this as a form -->
+                                <a href="javascript:;" class="btn btn-sm btn-success login">Login & Register</a>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                </div>
+            </div>>
+        </div>
+    </div>
     <!-- Export topology modal -->
     <div class="modal fade" id="export-topology" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
@@ -157,7 +192,7 @@
             </div>>
         </div>
     </div>
-        <!-- Import topology modal -->
+    <!-- Import topology modal -->
     <div class="modal fade" id="import-topology" tabindex="-1" role="dialog">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -215,7 +250,7 @@
             </div>
         </div>
     </div>
-        <!-- abraham modal -->
+    <!-- abraham modal -->
     <div class="modal fade" id="abrahamModal" tabindex="-1" role="dialog" aria-labelledby="abrahamModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">

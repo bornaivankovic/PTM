@@ -13,4 +13,5 @@ urlpatterns = [
     url(r'^signup',views.signup,name='singup'),
     url(r'^error',views.error,name='error'),
     url(r'^paths', views.paths, name='paths')
+
 ]
