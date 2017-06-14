@@ -214,6 +214,12 @@ function dijkstraModal() {
     $(document).on('click', '.calculate', function () {
         $('.calculation-container').append("<div class='success-msg-yellow'>Calculating using Dijkstra algorithm...</div>");
         $('.results').find('.panel-group').remove();
+        for (let edge of edges) {
+                    
+                        console.log();
+                        visedges.update([{ id: edge.getId(), color: '#97C2FC' }]);
+                    
+                }
         let username = globalUsername;
         let password = globalPassword;
         let startNode = $('#start-node').val();
@@ -224,9 +230,38 @@ function dijkstraModal() {
         let resultIterator = 1;
 
         let primaryPath = globalResultDijkstra.responseJSON.result['0'].paths.path1.split("-");
-        for(let colorPath of primaryPath) {
-            visnodes.update([{id: colorPath, shape: 'star'}]);
+        if (globalResultDijkstra.responseJSON.result['0'].paths.path2) {
+            let secondaryPath = globalResultDijkstra.responseJSON.result['0'].paths.path2.split("-");
+
+            let start = 0;
+            let end = 1
+            for (let colorPath of secondaryPath) {
+                for (let edge of edges) {
+                    if ((edge.getFrom() == secondaryPath[end] && edge.getTo() == secondaryPath[start] && end <= edges.length) || (edge.getFrom() == secondaryPath[start] && edge.getTo() == secondaryPath[end] && end <= edges.length)) {
+                        console.log();
+                        visedges.update([{ id: edge.getId(), color: 'green' }]);
+                    }
+                }
+                start++;
+                end++;
+            }
+
         }
+
+
+        let start = 0;
+        let end = 1
+        for (let colorPath of primaryPath) {
+            for (let edge of edges) {
+                if ((edge.getFrom() == primaryPath[end] && edge.getTo() == primaryPath[start] && end <= primaryPath.length) || (edge.getFrom() == primaryPath[start] && edge.getTo() == primaryPath[end] && end <= edges.length)) {
+                    console.log();
+                    visedges.update([{ id: edge.getId(), color: 'red' }]);
+                }
+            }
+            start++;
+            end++;
+        }
+
         /*if(globalResultDijkstra.responseJSON.result['0'].paths.path2) {
             var secondaryPath = globalResultDijkstra.responseJSON.result['0'].paths.path2.split("-");
             for (let edge of edges) {
