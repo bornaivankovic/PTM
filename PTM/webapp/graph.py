@@ -165,13 +165,19 @@ class Graph:
     def path_reliability(self,path,t):
         R=1
         for i in self.nodes_links_from_path(path,None,None):
-            R*=exp(-i.failureRate*t)
+            if isinstance(i,Link):
+                R*=exp(-i.failureRate*t)**i.length
+            else:
+                R*=exp(-i.failureRate*t)
         return R
 
     def path_availability(self, path):
         A = 1
         for i in self.nodes_links_from_path(path, None, None):
-            A *= i.repairRate / (i.failureRate + i.repairRate)
+            if isinstance(i,Link):
+                A *= (i.repairRate / (i.failureRate + i.repairRate))**i.length
+            else:
+                A *= i.repairRate / (i.failureRate + i.repairRate)
         return A
 
     def calculate_reliability_dijkstra(self,n1,n2,t):
@@ -182,7 +188,9 @@ class Graph:
             for i in path:
                 if not not i:
                     R.append(self.path_reliability(i,t))
-            return [(path,(min(R),sum(R)/len(R)))]
+            print "reliability 1.",R[0]
+            print "reliability 2.",R[1]
+            return [(path,(min(R),sum(R)-R[0]*R[1]))]
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
@@ -204,7 +212,9 @@ class Graph:
             for i in path:
                 if not not i:
                     R.append(self.path_availability(i))
-            return [(path,(min(R),sum(R)/len(R)))]
+            print "availability 1.",R[0]
+            print "availability 2.",R[1]
+            return [(path,(min(R),sum(R)-R[0]*R[1]))]
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
@@ -316,9 +326,25 @@ links = [Link(4, 2000*1e-9, 0.04, nodes[0], nodes[1],'e1'),
          Link(1, 2000*1e-9, 0.04, nodes[3], nodes[4],'e6')]
 g = Graph(nodes, links)
 # print json.dumps(g.to_json()).replace("u'","'")
-a = g.calculate_reliability_dijkstra(nodes[0], nodes[4], 1000)
-b = g.calculate_reliability_arbitrary([['a', 'c', 'd', 'e'], ['a', 'b', 'e']], 1000)
-print b
+# a = g.calculate_reliability_dijkstra(nodes[0], nodes[4], 1000)
+# b = g.calculate_reliability_arbitrary([['a', 'c', 'd', 'e'], ['a', 'b', 'e']], 1000)
+# print b
+
+nodes = [Node('1', 0, 1),
+         Node('2', 0, 1),
+         Node('3', 0, 1),
+         Node('4', 0, 1),
+         Node('5', 0, 1)]
+links = [Link(100, 1000*1e-9, 0.05, nodes[0], nodes[1],'e1'),
+         Link(100, 1000*1e-9, 0.05, nodes[0], nodes[2],'e2'),
+         Link(100, 1000*1e-9, 0.05, nodes[1], nodes[4],'e3'),
+         Link(100, 1000*1e-9, 0.05, nodes[2], nodes[3],'e4'),
+         Link(100, 1000*1e-9, 0.05, nodes[1], nodes[3],'e5'),
+         Link(100, 1000*1e-9, 0.05, nodes[3], nodes[4],'e6')]
+
+g=Graph(nodes,links)
+
+print g.calculate_availability_dijkstra(nodes[0],nodes[4])
 
 # nodes=[Node('gdansk',1,1),  #0
 # Node('bydgoszcz',1,1),      #1
