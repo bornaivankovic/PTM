@@ -8,6 +8,7 @@ from heapq import *
 from abraham import abraham
 from math import exp
 from itertools import combinations
+from abraham import pretty_print
 
 def find_all_paths(graph, start, end, path=[]):
     path = path + [start]
@@ -153,6 +154,11 @@ class Graph:
             if i.label==s:
                 return i.repairRate
 
+    def find_element(self,s):
+        for i in self.links+self.nodes:
+            if i.label==s:
+                return i
+
     def nodes_links_from_path(self,path,n1,n2):
         n,l=[],[]
         for i in path:
@@ -249,16 +255,22 @@ class Graph:
             ele_paths=self.ele_paths_to_bool(n1,n2)
             paths=abraham(ele_paths)
             R=0
+            pretty_print(self,ele_paths)
+            pretty_print(self,[ele_paths[0]]+paths)
             for i in paths:
                 tmp=1
                 for j in range(len(i)):
+                    if j<len(self.links):
+                        length=self.find_element(ele_paths[0][j]).length
+                    else:
+                        length=1
                     if i[j]=="1":
-                        tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                        tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t)**length
                     elif i[j]=="0":
-                        tmp*=1-exp(-self.find_failure_rate(ele_paths[0][j])*t)
+                        tmp*=(1-exp(-self.find_failure_rate(ele_paths[0][j])*t))**length
                 R+=tmp
             R*=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
-            return R
+            return ((n1,n2),R)
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
@@ -270,14 +282,20 @@ class Graph:
                 for j in paths:
                     tmp=1
                     for k in range(len(j)):
+                        if k<len(self.links):
+                            length=self.find_element(ele_paths[0][k]).length
+                        else:
+                            length=1
                         if j[k]=="1":
-                            tmp*=exp(-self.find_failure_rate(ele_paths[0][k])*t)
+                            tmp*=exp(-self.find_failure_rate(ele_paths[0][k])*t)**length
                         elif j[k]=="0":
-                            tmp*=1-exp(-self.find_failure_rate(ele_paths[0][k])*t)
+                            tmp*=(1-exp(-self.find_failure_rate(ele_paths[0][k])*t))**length
                     R+=tmp
                 R*=exp(-i[0].failureRate*t)*exp(-i[1].failureRate*t)
-                rel.append(R)
-            return(min(rel),sum(rel)/len(rel))
+                rel.append((i,R))
+            tmp=[x[1] for x in rel]
+            tot=(min(tmp),sum(tmp)/float(len(tmp)))
+            return(rel,tot)
 
     def calculate_availability_all_paths(self,n1,n2):
         #razina para cvora
@@ -288,17 +306,21 @@ class Graph:
             for i in paths:
                 tmp=1
                 for j in range(len(i)):
+                    if j<len(self.links):
+                        length=self.find_element(ele_paths[0][j]).length
+                    else:
+                        length=1
                     if i[j]=="1":
-                        tmp *= self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j]))
+                        tmp *= (self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j])))**length
                     elif i[j]=="0":
-                        tmp *= 1 - self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j]))
+                        tmp *= (1 - self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j])))**length
                 R+=tmp
             R*=(n1.repairRate / (n1.failureRate + n1.repairRate)) * (n2.repairRate / (n2.failureRate + n2.repairRate))
-            return R
+            return ((n1,n2),R)
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
-            rel=[]
+            ava=[]
             for i in pairs:
                 ele_paths=self.ele_paths_to_bool(i[0],i[1])
                 paths=abraham(ele_paths)
@@ -306,14 +328,20 @@ class Graph:
                 for j in paths:
                     tmp=1
                     for k in range(len(j)):
+                        if k<len(self.links):
+                            length=self.find_element(ele_paths[0][k]).length
+                        else:
+                            length=1
                         if j[k]=="1":
-                            tmp *= self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k]))
+                            tmp *= (self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k])))**length
                         elif j[k]=="0":
-                            tmp *= 1 - self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k]))
+                            tmp *= (1 - self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k])))**length
                     R+=tmp
                 R*=(i[1].repairRate / (i[1].failureRate + i[1].repairRate)) * (i[0].repairRate / (i[0].failureRate + i[0].repairRate))
-                rel.append(R)
-            return(min(rel),sum(rel)/len(rel))
+                ava.append((i,R))
+            tmp=[x[1] for x in ava]
+            tot=(min(tmp),sum(tmp)/float(len(tmp)))
+            return(ava,tot)
 
 
 nodes = [Node('a', 2000*1e-9, 0.04),

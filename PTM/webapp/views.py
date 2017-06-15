@@ -130,12 +130,16 @@ def nodepair(request):
             if 'start' in locals():
                 rel=g.calculate_reliability_all_paths(start,end,t)
                 ava = g.calculate_availability_all_paths(start, end)
-                s = "{\"result\":{\"reliability\":" + str(rel) + ",\"availability\":" + str(ava) + "}}"
+                s = "{\"result\":{\"pair\":\""+rel[0][0].label+","+rel[0][1].label+"\",\"reliability\":"+str(rel[1])+",\"availability\":"+str(ava[1])+"}}"
             else:
                 rel=g.calculate_reliability_all_paths(None,None,t)
                 ava = g.calculate_availability_all_paths(None, None)
-                s = "{\"result\":{\"reliability\":{\"s,t\":" + str(rel[0]) + ",\"av\":" + str(rel[1]) + "},\"availability\":{\"s,t\":" + str(ava[0]) + ",\"av\":" + str(ava[1]) + "}}}"
-
+                s="{\"result\":["
+                for i in range(len(rel[0])):
+                    s+="{\"pair\":\""+rel[0][i][0][0].label+","+rel[0][i][0][1].label+"\",\"reliability\":"+str(rel[0][i][1])+" ,\"availability\":"+str(ava[0][i][1])+"},"
+                s=s[:-1]
+                s+="],\"reliability\":{\"s,t\":"+str(rel[1][0])+",\"av\":"+str(rel[1][1])+"},"
+                s+="\"availability\":{\"s,t\":"+str(ava[1][0])+",\"av\":"+str(ava[1][1])+"}}"
             response=json.loads(s)
             return JsonResponse(response)
         else:
