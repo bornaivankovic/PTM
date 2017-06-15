@@ -653,7 +653,9 @@ font-family: 'Roboto', sans-serif;
   color: #9BC53D;
   padding-left: 30px;
 }
-
+#blue-heading {
+  background-color: #1F81E2!important;
+}
 .success-msg-red {
   color: #E55934;
     padding-left: 30px;
