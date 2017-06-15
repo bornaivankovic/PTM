@@ -54,6 +54,9 @@ def paths_to_json(p1, p2):
     else:
         return json.loads("{\"path1\":\"" + ("-").join(p1) + "\"}")
 
+def path_to_json(p):
+    return "\""+"-".join(p)+"\""
+
 class Graph:
     def __init__(self, nodes, links):
         self.nodes = nodes
@@ -187,10 +190,9 @@ class Graph:
             path=self.ele_path_dijkstra(n1,n2)
             for i in path:
                 if not not i:
-                    R.append(self.path_reliability(i,t))
-            print "reliability 1.",R[0]
-            print "reliability 2.",R[1]
-            return [(path,(min(R),sum(R)-R[0]*R[1]))]
+                    R.append((i,self.path_reliability(i,t)))
+            tmp=[x[1] for x in R]
+            return [(R,sum(tmp)-tmp[0]*tmp[1])]
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
@@ -200,8 +202,9 @@ class Graph:
                 tmp=[]
                 for i in path:
                     if not not i:
-                        tmp.append(self.path_reliability(i,t))
-                R.append((path,(min(tmp),sum(tmp)/len(tmp))))
+                        tmp.append((i,self.path_reliability(i,t)))
+                tmp2=[x[1] for x in tmp]
+                R.append((tmp,sum(tmp2)-tmp2[0]*tmp2[1]))
             return R
 
     def calculate_availability_dijkstra(self,n1,n2):
@@ -211,10 +214,9 @@ class Graph:
             path=self.ele_path_dijkstra(n1,n2)
             for i in path:
                 if not not i:
-                    R.append(self.path_availability(i))
-            print "availability 1.",R[0]
-            print "availability 2.",R[1]
-            return [(path,(min(R),sum(R)-R[0]*R[1]))]
+                    R.append((i,self.path_availability(i)))
+            tmp=[x[1] for x in R]
+            return [(R,sum(tmp)-tmp[0]*tmp[1])]
         #razina mreze
         else:
             pairs=combinations(self.nodes,2)
@@ -224,8 +226,9 @@ class Graph:
                 tmp=[]
                 for i in path:
                     if not not i:
-                        tmp.append(self.path_availability(i))
-                R.append((path,(min(tmp),sum(tmp)/len(tmp))))
+                        tmp.append((i,self.path_availability(i)))
+                tmp2=[x[1] for x in tmp]
+                R.append((tmp,sum(tmp2)-tmp2[0]*tmp2[1]))
             return R
 
     def calculate_reliability_arbitrary(self,paths,t):
@@ -343,8 +346,6 @@ links = [Link(100, 1000*1e-9, 0.05, nodes[0], nodes[1],'e1'),
          Link(100, 1000*1e-9, 0.05, nodes[3], nodes[4],'e6')]
 
 g=Graph(nodes,links)
-
-print g.calculate_availability_dijkstra(nodes[0],nodes[4])
 
 # nodes=[Node('gdansk',1,1),  #0
 # Node('bydgoszcz',1,1),      #1

@@ -10,7 +10,7 @@ import json
 import pickle
 from node import node_from_dict
 from link import link_from_dict
-from graph import Graph,paths_to_json
+from graph import Graph,paths_to_json,path_to_json
 from link import Link
 
 def index(request):
@@ -76,14 +76,18 @@ def dijkstra(request):
 
             s="{\"result\":["
             for i in range(rel.__len__()):
-                p=rel[i][0]
-                r=rel[i][1]
-                a = ava[i][1]
-                s+="{\"paths\":"+json.dumps(paths_to_json(p[0],p[1]))
-                s+=",\"reliability\":{\"s,t\":"+str(r[0])+",\"av\":"+str(r[1])+"},"
-                s += "\"availability\":{\"s,t\":" + str(a[0]) + ",\"av\":" + str(a[1]) + "}},"
+                s+="{\"primary\":{\"path\":"+path_to_json(rel[i][0][0][0])+",\"reliability\":"+str(rel[i][0][0][1])+",\"availability\":"+str(ava[i][0][0][1])+"},"
+                s+="\"secondary\":{\"path\":"+path_to_json(rel[i][0][1][0])+",\"reliability\":"+str(rel[i][0][1][1])+",\"availability\":"+str(ava[i][0][1][1])+"},"
+                s+="\"total\":{\"reliability\":"+str(rel[i][1])+",\"availability\":"+str(ava[i][1])+"}},"
             s=s[:-1]
-            s+="]}"
+            rel_tot=[x[1] for x in rel]
+            ava_tot=[x[1] for x in ava]
+            rel_st=min(rel_tot)
+            rel_av=sum(rel_tot)/float(len(rel_tot))
+            ava_st=min(ava_tot)
+            ava_av=sum(ava_tot)/float(len(ava_tot))
+            s+="],\"reliability\":{\"s,t\":"+str(rel_st)+",\"av\":"+str(rel_av)+"},"
+            s+="\"availability\":{\"s,t\":"+str(ava_st)+",\"av\":"+str(ava_av)+"}}"
             response=json.loads(s)
             return JsonResponse(response)
         else:
