@@ -47,7 +47,7 @@ def pretty_print(g,arr):
             for j in range(len(arr[i])):
                 if j==len(g.links):
                     s+="|"
-                s+=arr[i][j]+"  "
+                s+=arr[i][j]+" "*len(arr[0][j])
             s+="\n"
     print s
 

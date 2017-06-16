@@ -184,7 +184,7 @@ class Graph:
         A = 1
         for i in self.nodes_links_from_path(path, None, None):
             if isinstance(i,Link):
-                A *= (i.repairRate / (i.failureRate + i.repairRate))**i.length
+                A *= (i.repairRate / (i.failureRate*i.length + i.repairRate))
             else:
                 A *= i.repairRate / (i.failureRate + i.repairRate)
         return A
@@ -265,9 +265,9 @@ class Graph:
                     else:
                         length=1
                     if i[j]=="1":
-                        tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t)**length
+                        tmp*=exp(-self.find_failure_rate(ele_paths[0][j])*t*length)
                     elif i[j]=="0":
-                        tmp*=(1-exp(-self.find_failure_rate(ele_paths[0][j])*t))**length
+                        tmp*=(1-exp(-self.find_failure_rate(ele_paths[0][j])*t*length))
                 R+=tmp
             R*=exp(-n1.failureRate*t)*exp(-n2.failureRate*t)
             return ((n1,n2),R)
@@ -287,9 +287,9 @@ class Graph:
                         else:
                             length=1
                         if j[k]=="1":
-                            tmp*=exp(-self.find_failure_rate(ele_paths[0][k])*t)**length
+                            tmp*=exp(-self.find_failure_rate(ele_paths[0][k])*t*length)
                         elif j[k]=="0":
-                            tmp*=(1-exp(-self.find_failure_rate(ele_paths[0][k])*t))**length
+                            tmp*=(1-exp(-self.find_failure_rate(ele_paths[0][k])*t*length))
                     R+=tmp
                 R*=exp(-i[0].failureRate*t)*exp(-i[1].failureRate*t)
                 rel.append((i,R))
@@ -311,9 +311,9 @@ class Graph:
                     else:
                         length=1
                     if i[j]=="1":
-                        tmp *= (self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j])))**length
+                        tmp *= (self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j])*length + self.find_repair_rate(ele_paths[0][j])))
                     elif i[j]=="0":
-                        tmp *= (1 - self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j]) + self.find_repair_rate(ele_paths[0][j])))**length
+                        tmp *= (1 - self.find_repair_rate(ele_paths[0][j]) / (self.find_failure_rate(ele_paths[0][j])*length + self.find_repair_rate(ele_paths[0][j])))
                 R+=tmp
             R*=(n1.repairRate / (n1.failureRate + n1.repairRate)) * (n2.repairRate / (n2.failureRate + n2.repairRate))
             return ((n1,n2),R)
@@ -333,9 +333,9 @@ class Graph:
                         else:
                             length=1
                         if j[k]=="1":
-                            tmp *= (self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k])))**length
+                            tmp *= (self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k])*length + self.find_repair_rate(ele_paths[0][k])))
                         elif j[k]=="0":
-                            tmp *= (1 - self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k]) + self.find_repair_rate(ele_paths[0][k])))**length
+                            tmp *= (1 - self.find_repair_rate(ele_paths[0][k]) / (self.find_failure_rate(ele_paths[0][k])*length + self.find_repair_rate(ele_paths[0][k])))
                     R+=tmp
                 R*=(i[1].repairRate / (i[1].failureRate + i[1].repairRate)) * (i[0].repairRate / (i[0].failureRate + i[0].repairRate))
                 ava.append((i,R))
