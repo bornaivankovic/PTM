@@ -42,6 +42,8 @@ export class AjaxController {
             async: false,
             data: jsonTopology,
             success: function (data: any) {
+                console.log(data);
+                
             },
             error: function (data: any) {
                 console.log(data);
