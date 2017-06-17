@@ -137,7 +137,7 @@ function cancelNodeEdit(callback: any) {
 function saveNodeData(data: any, callback: any) {
     data.label = (<HTMLInputElement>document.getElementById('node-label')).value;
     data.id = (<HTMLInputElement>document.getElementById('node-id')).value;
-    data.failureRate = Number((<HTMLInputElement>document.getElementById('node-failureRate')).value);
+    data.failureRate = Number((<HTMLInputElement>document.getElementById('node-failureRate')).value)/(10**9);
     data.repairRate = Number((<HTMLInputElement>document.getElementById('node-repairRate')).value);
     clearNodePopUp();
 
@@ -173,7 +173,7 @@ function saveEdgeData(data: any, callback: any) {
         data.from = data.from.id
     data.label = (<HTMLInputElement>document.getElementById('edge-label')).value;
     data.id = (<HTMLInputElement>document.getElementById('edge-id')).value;
-    data.failureRate = Number((<HTMLInputElement>document.getElementById('edge-failureRate')).value);
+    data.failureRate = Number((<HTMLInputElement>document.getElementById('edge-failureRate')).value)/(10**9);
     data.repairRate = Number((<HTMLInputElement>document.getElementById('edge-repairRate')).value);
     data.length = Number((<HTMLInputElement>document.getElementById('edge-length')).value);
     let tempEdge: Edge = new Edge(data.label, data.id, data.from, data.to, data.length, data.failureRate, data.repairRate);
